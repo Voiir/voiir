@@ -1,0 +1,40 @@
+.footer {
+    display: inline-block;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color:grey;
+    color: white;
+ }
+
+/* *{
+    margin: 0;
+    list-style: none;
+    text-decoration: none;
+}
+.header{
+    display: inline-block;
+    height: 70px;
+    display: block;
+    border: 2px solid skyblue;
+    /* position: fixed; */
+    /* backgr ound-color:skyblue ; */
+/* }
+
+.header_elements{
+    margin: 20px;
+    display: inline-block;
+    font-size: 20px;
+}
+.combined_elements{
+    position: absolute;
+    left: 1150px;
+}
+.description{
+    position: absolute;
+    top:40%;
+    right: 40%;
+
+} */
+ 
