@@ -6,7 +6,44 @@
     width: 100%;
     background-color:grey;
     color: white;
+    
  }
+
+ .tag-line{
+     text-align: center;
+     position: relative;
+     top: 80px;
+ }
+
+/* need to be made responsive by media query*/
+.about-legal{
+    position: absolute;
+    right: 8%;
+}
+.terms-legal{
+    position: absolute;
+    right: 3%;
+}
+
+input[type=text] {
+    border: 4px solid #9A3FCB;
+    border-radius: 4px;
+    width: 550px;
+  }
+
+.button{
+    border: 4px solid #9a3fcb;
+    background-color: #9a3fcb;
+}
+.fa-search{
+    color: white;
+}
+
+.search-bar{
+    text-align: center;
+    position: relative;
+    top: 90px;
+}
 
 /* *{
     margin: 0;
