@@ -1,3 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chivo&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'poppins';
+}
+
 .footer {
     display: inline-block;
     position: fixed;
@@ -9,10 +19,13 @@
     
  }
 
+ 
+
  .tag-line{
-     text-align: center;
-     position: relative;
-     top: 80px;
+      text-align: center;
+     font-family: 'chivo';
+     margin-bottom: 28px;
+     
  }
 
 /* need to be made responsive by media query*/
@@ -26,13 +39,16 @@
 }
 
 input[type=text] {
-    border: 4px solid #9A3FCB;
-    border-radius: 4px;
-    width: 550px;
+    border: 4px solid #9A3FCB;border-right: 0px;
+    width: 740px;
+    height:60px;
+    float:left;
   }
 
 .button{
     border: 4px solid #9a3fcb;
+    height: 60px;
+    width: 60px;
     background-color: #9a3fcb;
 }
 .fa-search{
@@ -40,38 +56,18 @@ input[type=text] {
 }
 
 .search-bar{
-    text-align: center;
-    position: relative;
-    top: 90px;
+  position: absolute; 
+  top: 35%;
+  left: 0; 
+  right: 0; 
+  margin:auto;
+  width: 800px
 }
 
-/* *{
-    margin: 0;
-    list-style: none;
-    text-decoration: none;
-}
-.header{
-    display: inline-block;
-    height: 70px;
-    display: block;
-    border: 2px solid skyblue;
-    /* position: fixed; */
-    /* backgr ound-color:skyblue ; */
-/* }
-
-.header_elements{
-    margin: 20px;
-    display: inline-block;
+.search-hint{
+    padding-left: 20px;
     font-size: 20px;
+    font-weight: 400;
+    color: #999999;
 }
-.combined_elements{
-    position: absolute;
-    left: 1150px;
-}
-.description{
-    position: absolute;
-    top:40%;
-    right: 40%;
-
-} */
  
