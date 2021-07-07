@@ -44,34 +44,3 @@ input[type=text] {
     position: relative;
     top: 90px;
 }
-
-/* *{
-    margin: 0;
-    list-style: none;
-    text-decoration: none;
-}
-.header{
-    display: inline-block;
-    height: 70px;
-    display: block;
-    border: 2px solid skyblue;
-    /* position: fixed; */
-    /* backgr ound-color:skyblue ; */
-/* }
-
-.header_elements{
-    margin: 20px;
-    display: inline-block;
-    font-size: 20px;
-}
-.combined_elements{
-    position: absolute;
-    left: 1150px;
-}
-.description{
-    position: absolute;
-    top:40%;
-    right: 40%;
-
-} */
- 
