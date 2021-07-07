@@ -71,3 +71,6 @@ input[type=text] {
     color: #999999;
 }
  
+.footer{
+    box-shadow: 20px 20px 20px 20px grey;
+}
