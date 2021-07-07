@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Chivo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cabin:wght@600&display=swap');
 *{
     margin: 0;
     padding: 0;
@@ -8,18 +9,27 @@
     font-family: 'poppins';
 }
 
-.footer {
-    display: inline-block;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color:grey;
-    color: white;
-    
- }
+/* NAVBAR */
 
- 
+.navbar{
+    box-shadow:0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    height: 80px;
+    
+}
+
+.logo{
+    font-family: 'cabin';
+    font-weight: 600;
+    font-size: 32px;
+    position: absolute;
+    top: 50%;  
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+}
+
+
+/* TAG AND SEARCH BOX */
 
  .tag-line{
       text-align: center;
@@ -28,29 +38,20 @@
      
  }
 
-/* need to be made responsive by media query*/
-.about-legal{
-    position: absolute;
-    right: 8%;
-}
-.terms-legal{
-    position: absolute;
-    right: 3%;
-}
-
 input[type=text] {
     border: 4px solid #9A3FCB;border-right: 0px;
     width: 740px;
-    height:60px;
+    height: 56px;
     float:left;
-  }
+}
 
 .button{
     border: 4px solid #9a3fcb;
-    height: 60px;
-    width: 60px;
+    height: 56px;
+    width: 56px;
     background-color: #9a3fcb;
 }
+
 .fa-search{
     color: white;
 }
@@ -66,11 +67,46 @@ input[type=text] {
 
 .search-hint{
     padding-left: 20px;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 400;
     color: #999999;
 }
- 
-.footer{
-    box-shadow: 20px 20px 20px 20px grey;
+
+/* FOOTER */
+
+.footer {
+    position: fixed;
+    bottom: 0; 
+    width: 100%;
+    color: white;
+    box-shadow:0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+    height: 80px;
+ }
+
+.copyright{
+    color: black;
+    position: relative;
+    top: 50%; 
+    margin-left: 40px;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    float: left;
+}
+
+.about-legal{
+    position: absolute;
+    top: 50%;  
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    right: 105px;
+    color: black;
+}
+
+.terms-legal{
+    position: absolute;
+    top: 50%;  
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    right: 40px;
+    color: black;
 }
