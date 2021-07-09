@@ -1,0 +1,61 @@
+body{
+    background-color: black;
+    height: 100%;
+    width:100%;
+}
+
+.login{
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%,-50%); 
+  width: 850px;
+}
+.art{
+    height: 500px;
+    width: 250px;
+    float:left;
+}
+.popup{
+    height: 500px;
+    width: 600px;
+    background-color: white;
+    display: inline-block;
+}
+
+.title{
+    font-size: 40px;
+    font-weight: 500;
+    color: black;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+.logo{
+    height: 100px;
+    width: 100px;
+    display: table;
+    margin: 75px auto;
+}
+
+.login-button{
+    height: 40px;
+    width: 450px;
+    border: 4px solid #9A3FCB;
+    font-size: 20px;
+    display: table;
+  margin: 0 auto;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sub-title{
+    font-size: 14px;
+    color: #999999;
+    font-weight: 500;
+    display: table;
+  margin: 0 auto;
+}
