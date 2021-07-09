@@ -24,6 +24,7 @@ body{
     width: 600px;
     background-color: white;
     display: inline-block;
+    position: relative;
 }
 
 .title{
@@ -40,6 +41,11 @@ body{
     width: 100px;
     display: table;
     margin: 75px auto 96px;
+    position: absolute;
+    left: 0; 
+  right: 0; 
+  margin-left: auto; 
+  margin-right: auto; 
 }
 
 .login-button{
@@ -48,17 +54,40 @@ body{
     border: 4px solid #9A3FCB;
     font-size: 16px;
     font-weight: 500;
-    display: table;
-  margin: 0 auto;
-  margin-bottom: 8px;
+
+    left:0;
+    right:0;
+    margin-left: auto;
+    margin-right: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  bottom: 64px;
+
+  
 }
 
 .login-button:hover{
     background-color: #9A3FCB;
     color: white;
+}
+
+.tc{
+    font-size: 12px;
+    color: #999999;
+    font-weight: 500;
+
+  position: absolute;
+    bottom: 40px;
+    left:0;
+    right:0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 450px;
+    display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sub-title{
