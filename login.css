@@ -6,6 +6,7 @@ body{
     width:100%;
 }
 
+
 .login{
     position: absolute;
     top: 50%; 
@@ -24,22 +25,25 @@ body{
     width: 600px;
     background-color: white;
     display: inline-block;
+    position:relative
 }
 
 .title{
     font-size: 36px;
     font-weight: 500;
     color: black;
-    width: 50%;
-    margin: 0 auto;
+    display: table;
+  margin: 0 auto;
     margin-top: 40px;
 }
 
-.logo{
-    height: 100px;
-    width: 100px;
+
+.sub-title{
+    font-size: 12px;
+    color: #999999;
+    font-weight: 500;
     display: table;
-    margin: 75px auto 96px;
+  margin: 0 auto;
 }
 
 .login-button{
@@ -48,12 +52,18 @@ body{
     border: 4px solid #9A3FCB;
     font-size: 16px;
     font-weight: 500;
-    display: table;
-  margin: 0 auto;
-  margin-bottom: 8px;
+
+    left:0;
+    right:0;
+    margin-left: auto;
+    margin-right: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  bottom: 64px;
+
+  
 }
 
 .login-button:hover{
@@ -61,10 +71,78 @@ body{
     color: white;
 }
 
-.sub-title{
+.tc{
     font-size: 12px;
     color: #999999;
     font-weight: 500;
+
+  position: absolute;
+    bottom: 40px;
+    left:0;
+    right:0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 450px;
+    display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* FORM */
+.username{
+    height: 40px;
+    width: 450px;
+    border: 0px;
+    background-color: #F8EDFB;
     display: table;
-  margin: 0 auto;
+  margin: 36px auto 8px;
+}
+
+.dual{
+    display: table;
+    margin: 0 auto 8px;
+    /* width: 450px; */
+}
+
+.city{
+    height: 40px;
+    width: 219px;
+    border: 0px;
+    background-color: #F8EDFB;
+    display: table;
+  float:left;
+}
+
+.state{
+    height: 40px;
+    width: 219px;
+    border: 0px;
+    background-color: #F8EDFB;
+    margin-left: 8px;
+}
+
+.profession{
+    height: 40px;
+    width: 450px;
+    border: 0px;
+    background-color: #F8EDFB;
+    display: table;
+  margin: 0px auto 8px;
+}
+
+.bio{
+    height: 40px;
+    width: 450px;
+    border: 0px;
+    background-color: #F8EDFB;
+    display: table;
+    margin: 0px auto 8px;
+}
+
+::placeholder{
+    padding-left: 8px;
+    color: #BEBEBE;
+    font-size: 12px;
+    font-family: 'poppins';
 }
