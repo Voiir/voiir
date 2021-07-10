@@ -1,27 +1,31 @@
-import './Onboard.css'
+import onboardStyles from './Onboard.module.css'
 import art from '../../assets/art.png';
 
 function Onboard() {
     return (
-        <div className="login">
-            <img src={art} alt="" className="art" />
-            <div className="popup">
-                <div className="title">we're almost there</div>
-                <p className="sub-title">We need just a few more things to improve our <span style={{ color: '#9A3FCB' }}>search result.</span></p>
-                <form action='' className="details">
-                    <div className="dual">
-                        <input type="text" placeholder="pick a username" className="username" />
+        <div className={onboardStyles.onboard}>
+            <img src={art} alt="" className={onboardStyles.art} />
+            <div className={onboardStyles.popup}>
+                <div className={onboardStyles.title}>we're almost there</div>
+                <p className={onboardStyles.subTitle}>We need just a few more things to improve our <span style={{ color: '#9A3FCB' }}>search result.</span></p>
+                <form action='' className={onboardStyles.details}>
+                    <div className={onboardStyles.dual}>
+                        <input type="text" placeholder="pick a username" className={onboardStyles.username}/>
                     </div>
-                    <div className="dual">
-                        <input type="text" placeholder="city" className="city" />
-                        <input type="text" placeholder="state" className="state" />
+                    <div className={onboardStyles.dual}>
+                        <input type="text" placeholder="city" className={onboardStyles.city} />
+                        <input type="text" placeholder="state" className={onboardStyles.state} />
                     </div>
-                    <div className="dual"><input type="text" placeholder="profession" className="profession" /></div>
-                    <div className="dual"><input type="text" placeholder="bio" className="bio" /></div>
+                    <div className={onboardStyles.dual}>
+                    <div className="dual"><input type="text" placeholder="profession" className={onboardStyles.profession} /></div>
 
+                    </div>
+                    <div className={onboardStyles.dual}>
+                    <div className="dual"><input type="text" placeholder="bio" className={onboardStyles.bio} /></div>
+                    </div>
                 </form>
-                <div className="login-button">continue</div>
-                <div className="tc">By signing in you agree to our <span style={{ color: '#9A3FCB' }}>terms and conditions.</span></div>
+                <div className={onboardStyles.loginButton}>continue</div>
+                <div className={onboardStyles.tc}>By signing in you agree to our <span style={{ color: '#9A3FCB' }}>terms and conditions.</span></div>
             </div>
         </div>
     );

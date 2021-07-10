@@ -8,10 +8,10 @@ import Onboard from './pages/login/Onboard';
 function App() {
   return (
     <div className="App">
-      {/* <Navbar></Navbar>
+      <Navbar></Navbar>
       <Homepage></Homepage>
-      <Footer></Footer> */}
-      <Login></Login>
+      <Footer></Footer>
+      {/* <Login></Login> */}
       {/* <Onboard></Onboard> */}
     </div>
   );
