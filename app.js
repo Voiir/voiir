@@ -37,9 +37,16 @@ app.get('/',(req,res)=>{
     res.send('Hello');
 })
 
-app.post('/apis/signIn', (req, res) => {
+app.post('/api/setUser', (req, res) => {
     console.log('entered api');
   const emailId = req.body.emailId;
+  const username = req.body.username;
+  const name = req.body.name;
+  const dpUrl = req.body.dpUrl;
+  const city  = req.body.city;
+  const state = req.body.state;
+  const profession = req.body.profession;
+  
 //   const createdAt = Date.now;
 
   let usersRef = firedb.collection("UserAuth").doc(emailId);
@@ -49,7 +56,20 @@ app.post('/apis/signIn', (req, res) => {
         try {
             console.log('before await');
           await firedb.collection("UserAuth").doc(emailId).create({
-            createdAt: new Date()
+            createdAt: new Date(),
+            username: username,
+          });
+          await firedb.collection("UserCollection").doc(username).create({
+            name: name,
+            dpUrl: dpUrl,
+            city: city,
+            state: state,
+            profession: profession,
+            connectedPlatform: ['gmail']
+          });
+          await firedb.collection("UserDataCollection").doc(username).create({
+            accounts: {'gmail': emailId},
+            bookmarks: []
           });
           console.log('After await');
           return res.status(201).send();
@@ -64,5 +84,7 @@ app.post('/apis/signIn', (req, res) => {
     }
   });
 });
+
+
 
 module.exports = app;
