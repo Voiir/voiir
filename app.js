@@ -4,6 +4,7 @@ const admin = require("firebase-admin");
 const app = express();
 
 var serviceAccount = require("./voiir-a23cb-firebase-adminsdk-8x041-38fcd8f12d.json");
+const { json } = require("express");
 
 var firebaseAdmin = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -31,60 +32,78 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
-console.log('before api');
 
-app.get('/',(req,res)=>{
-    res.send('Hello');
-})
 
-app.post('/api/setUser', (req, res) => {
-    console.log('entered api');
+
+
+app.post("/api/setUser", (req, res) => {
   const emailId = req.body.emailId;
   const username = req.body.username;
   const name = req.body.name;
   const dpUrl = req.body.dpUrl;
-  const city  = req.body.city;
+  const city = req.body.city;
   const state = req.body.state;
   const profession = req.body.profession;
-  
-//   const createdAt = Date.now;
+
 
   let usersRef = firedb.collection("UserAuth").doc(emailId);
   usersRef.get().then((docSnapshot) => {
     if (!docSnapshot.exists) {
       (async () => {
         try {
-            console.log('before await');
           await firedb.collection("UserAuth").doc(emailId).create({
             createdAt: new Date(),
             username: username,
           });
-          await firedb.collection("UserCollection").doc(username).create({
-            name: name,
-            dpUrl: dpUrl,
-            city: city,
-            state: state,
-            profession: profession,
-            connectedPlatform: ['gmail']
-          });
-          await firedb.collection("UserDataCollection").doc(username).create({
-            accounts: {'gmail': emailId},
-            bookmarks: []
-          });
-          console.log('After await');
+          await firedb
+            .collection("UserCollection")
+            .doc(username)
+            .create({
+              name: name,
+              dpUrl: dpUrl,
+              city: city,
+              state: state,
+              profession: profession,
+              connectedPlatform: ["gmail"],
+            });
+          await firedb
+            .collection("UserDataCollection")
+            .doc(username)
+            .create({
+              accounts: { gmail: emailId },
+              bookmarks: [],
+            });
+          console.log("After await");
           return res.status(201).send();
         } catch (error) {
           console.log(error);
           return res.status(500).send();
         }
       })();
-    }
-    else{
-         return res.status(409).send();
+    } else {
+      return res.status(409).send();
     }
   });
 });
 
+app.get("/api/userExists", (req, res) => {
+  const emailId = req.body.emailId;
 
+  (async () => {
+    try {
+      let usersRef = await firedb.collection("UserAuth").doc(emailId);
+      usersRef.get().then((docSnapshot) => {
+        if (docSnapshot.exists) {
+           return res.status(403).send(true);
+        } else {
+          return res.status(404).send(false);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(error);
+    }
+  })();
+});
 
 module.exports = app;
