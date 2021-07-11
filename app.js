@@ -73,8 +73,7 @@ app.post("/api/setUser", (req, res) => {
               accounts: { gmail: emailId },
               bookmarks: [],
             });
-          console.log("After await");
-          return res.status(201).send();
+          return res.status(201).send('User Created');
         } catch (error) {
           console.log(error);
           return res.status(500).send();
@@ -105,5 +104,38 @@ app.get("/api/userExists", (req, res) => {
     }
   })();
 });
+
+app.get("/api/userSearch", (req, res) =>{
+  const name = req.body.name;
+
+ (async()=> {
+  try{
+    
+    let usersRef = await firedb.collection("UserCollection");
+    let response = [];
+    
+    await usersRef.get().then((querySnapshot) => {
+      let docs = querySnapshot.docs;
+      
+      for(let doc of docs){
+          let nameOfUser = doc.data().name.toLowerCase();
+          let result = nameOfUser.startsWith(name.toLowerCase());
+          if(result) {
+            console.log(nameOfUser);
+            const selectedUser = doc.data();
+            response.push(selectedUser);
+          }
+      }
+      return response;
+      
+    })
+    return res.status(200).send(response);
+  }catch(error){
+    console.log(error);
+    return  res.send(500).send(error);
+  }
+ })();
+});
+
 
 module.exports = app;
