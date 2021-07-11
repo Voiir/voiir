@@ -1,12 +1,18 @@
 import navbarStyles from './Navbar.module.css';
-function Navbar(){
+function Navbar(props){
+  function toggle(){
+    props.setLoginDialog({isLoginDialog: !props.state.isLoginDialog});
+
+    // console.log('fncalled');
+  }
   return(
     <div className={navbarStyles.navbar}>
     <p className={navbarStyles.logo}>
       vo<span style={{color: '#9A3FCB'}}>ii</span>r
     </p>
-    <p className={navbarStyles.aboutLegal} href="#">Login</p>
-    <p className={navbarStyles.termsLegal} href="#">Saved</p>
+    {props.user && <a className={navbarStyles.aboutLegal} href="#" >{props.user.displayName.split(' ')[0]}</a>}
+    {!props.user && <a className={navbarStyles.aboutLegal} href="#" onClick={toggle}>Login</a>}
+    <a className={navbarStyles.termsLegal} href="#">Saved</a>
   </div>
 );
   

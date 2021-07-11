@@ -3,6 +3,8 @@ import art from '../../assets/art.png';
 
 function Onboard() {
     return (
+        <div>
+            <div className={onboardStyles.backdrop}></div>
         <div className={onboardStyles.onboard}>
             <img src={art} alt="" className={onboardStyles.art} />
             <div className={onboardStyles.popup}>
@@ -27,6 +29,7 @@ function Onboard() {
                 <div className={onboardStyles.loginButton}>continue</div>
                 <div className={onboardStyles.tc}>By signing in you agree to our <span style={{ color: '#9A3FCB' }}>terms and conditions.</span></div>
             </div>
+        </div>
         </div>
     );
 }
