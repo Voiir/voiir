@@ -1,0 +1,36 @@
+.footer {
+    position: fixed;
+    bottom: 0; 
+    width: 100%;
+    color: white;
+    box-shadow:0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+    height: 80px;
+ }
+
+ .copyright{
+    color: black;
+    position: relative;
+    top: 50%; 
+    margin-left: 40px;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    float: left;
+}
+
+.aboutLegal{
+    position: absolute;
+    top: 50%;  
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    right: 105px;
+    color: black;
+}
+
+.termsLegal{
+    position: absolute;
+    top: 50%;  
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    right: 40px;
+    color: black;
+}
