@@ -32,10 +32,6 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
-
-
-
-
 app.post("/api/setUser", (req, res) => {
   const emailId = req.body.emailId;
   const username = req.body.username;
@@ -44,7 +40,6 @@ app.post("/api/setUser", (req, res) => {
   const city = req.body.city;
   const state = req.body.state;
   const profession = req.body.profession;
-
 
   let usersRef = firedb.collection("UserAuth").doc(emailId);
   usersRef.get().then((docSnapshot) => {
@@ -73,7 +68,7 @@ app.post("/api/setUser", (req, res) => {
               accounts: { gmail: emailId },
               bookmarks: [],
             });
-          return res.status(201).send('User Created');
+          return res.status(201).send("User Created");
         } catch (error) {
           console.log(error);
           return res.status(500).send();
@@ -93,7 +88,7 @@ app.get("/api/userExists", (req, res) => {
       let usersRef = await firedb.collection("UserAuth").doc(emailId);
       usersRef.get().then((docSnapshot) => {
         if (docSnapshot.exists) {
-           return res.status(403).send(true);
+          return res.status(403).send(true);
         } else {
           return res.status(404).send(false);
         }
@@ -105,37 +100,62 @@ app.get("/api/userExists", (req, res) => {
   })();
 });
 
-app.get("/api/userSearch", (req, res) =>{
+app.get("/api/userSearch", (req, res) => {
   const name = req.body.name;
 
- (async()=> {
-  try{
-    
-    let usersRef = await firedb.collection("UserCollection");
-    let response = [];
-    
-    await usersRef.get().then((querySnapshot) => {
-      let docs = querySnapshot.docs;
-      
-      for(let doc of docs){
+  (async () => {
+    try {
+      let usersRef = await firedb.collection("UserCollection");
+      let response = [];
+
+      await usersRef.get().then((querySnapshot) => {
+        let docs = querySnapshot.docs;
+
+        for (let doc of docs) {
           let nameOfUser = doc.data().name.toLowerCase();
           let result = nameOfUser.startsWith(name.toLowerCase());
-          if(result) {
+          if (result) {
             console.log(nameOfUser);
             const selectedUser = doc.data();
             response.push(selectedUser);
           }
-      }
-      return response;
-      
-    })
-    return res.status(200).send(response);
-  }catch(error){
-    console.log(error);
-    return  res.send(500).send(error);
-  }
- })();
+        }
+        return response;
+      });
+      return res.status(200).send(response);
+    } catch (error) {
+      console.log(error);
+      return res.send(500).send(error);
+    }
+  })();
 });
 
+app.get("/api/user/:username", (req, res) => {
+  const username = req.params.username;
+  (async () => {
+    try {
+      const userRef = await firedb.collection("UserCollection").doc(username);
+      userRef.get().then(async (docSnapshot) => {
+        if (docSnapshot.exists) {
+          const userData = await firedb
+            .collection("UserDataCollection")
+            .doc(username)
+            .get();
+          const response = {
+            userCollection: docSnapshot.data(),
+            userData: userData.data(),
+          };
+          return res.status(200).send(response);
+        } else {
+          console.log("User Not found");
+          return res.status(404).send("User Not Found");
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(error);
+    }
+  })();
+});
 
 module.exports = app;
