@@ -117,7 +117,7 @@ app.get("/api/userSearch", (req, res) => {
           if (result) {
             console.log(nameOfUser);
             const selectedUser = doc.data();
-            response.push(selectedUser);
+            response.push(selecconnectedPlatformtedUser);
           }
         }
         return response;
@@ -157,5 +157,31 @@ app.get("/api/user/:username", (req, res) => {
     }
   })();
 });
+
+app.post("/api/updateAccount", (req, res) => {
+  const platform = req.body.platform;
+  const url = req.body.url;
+  const username = req.body.username;
+
+  (async () => {
+    try {
+      const userDoc = await firedb.collection("UserCollection").doc(username);
+      let arrayUnion = userDoc.update({
+        connectedPlatform: admin.firestore.FieldValue.arrayUnion(platform)
+      });
+
+      await firedb.collection("UserDataCollection").doc(username).set({
+        accounts: { [`${platform}`]: url }
+      }, { merge: true });
+      return res.status(200).send('User Updated');
+    }
+    catch (error) {
+      console.log(error);
+      return res.status(500).send(error);
+    }
+  })();
+})
+
+
 
 module.exports = app;
