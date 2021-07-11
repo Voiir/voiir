@@ -1,13 +1,17 @@
 import onboardStyles from './Onboard.module.css'
 import art from '../../assets/art.png';
 
-function Onboard() {
+function Onboard(props) {
+    function toggle(){
+        props.setLoginDialog({isLoginDialog: !props.state.isLoginDialog});
+      }
     return (
         <div>
             <div className={onboardStyles.backdrop}></div>
         <div className={onboardStyles.onboard}>
             <img src={art} alt="" className={onboardStyles.art} />
             <div className={onboardStyles.popup}>
+            <a className={onboardStyles.cross} onClick={toggle} href="#">x</a>
                 <div className={onboardStyles.title}>we're almost there</div>
                 <p className={onboardStyles.subTitle}>We need just a few more things to improve our <span style={{ color: '#9A3FCB' }}>search result.</span></p>
                 <form action='' className={onboardStyles.details}>

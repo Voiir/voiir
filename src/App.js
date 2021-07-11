@@ -33,11 +33,11 @@ class App extends Component {
 
     return (
       <div className="App">
-      <Navbar state={this.state} setLoginDialog={this.setState} user={user}></Navbar>
+      <Navbar state={this.state} setLoginDialog={this.setState} signOut={signOut} user={user}></Navbar>
       <Homepage></Homepage>
       <Footer></Footer>
-      {this.state.isLoginDialog && <Login state={this.state} googleLogin={signInWithGoogle} user={user}  setLoginDialog={this.setState}></Login>}
-      {/* <Onboard></Onboard> */}
+      {this.state.isLoginDialog && !user && <Login state={this.state} googleLogin={signInWithGoogle} user={user} setLoginDialog={this.setState}></Login>}
+      {this.state.isLoginDialog && user && <Onboard state={this.state} setLoginDialog={this.setState}></Onboard> }
     </div>
     );
   }

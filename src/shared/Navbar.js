@@ -12,7 +12,8 @@ function Navbar(props){
     </p>
     {props.user && <a className={navbarStyles.aboutLegal} href="#" >{props.user.displayName.split(' ')[0]}</a>}
     {!props.user && <a className={navbarStyles.aboutLegal} href="#" onClick={toggle}>Login</a>}
-    <a className={navbarStyles.termsLegal} href="#">Saved</a>
+    {props.user && <a className={navbarStyles.termsLegal} onClick={props.signOut} href="#">Logout</a>}
+    {!props.user && <a className={navbarStyles.termsLegal} onClick={props.signOut} href="#">Signup</a>}
   </div>
 );
   
