@@ -182,6 +182,35 @@ app.post("/api/updateAccount", (req, res) => {
   })();
 })
 
+app.post("/api/userBookmark", (req, res) => {
+  const usernameAdd = req.body.usernameAdd;
+  const usernameHost = req.body.usernameHost;
 
+  (async () => {
+
+    try {
+      const userDoc = await firedb.collection("UserDataCollection").doc(usernameHost);
+
+      if (((await userDoc.get()).data().bookmarks).indexOf(usernameAdd) == -1) {
+        let arrayUnion = userDoc.update({
+          bookmarks: admin.firestore.FieldValue.arrayUnion(usernameAdd)
+        });
+        return res.status(200).send("Profile Bookmarked");
+      }
+      else {
+        let arrayUnion = userDoc.update({
+          bookmarks: admin.firestore.FieldValue.arrayRemove(usernameAdd)
+        });
+        return res.status(200).send("Profile Bookmark Removed");
+      }
+      
+    }
+    catch (error) {
+      console.log(error);
+      return res.status(500).send(error);
+    }
+
+  })();
+});
 
 module.exports = app;
