@@ -31,11 +31,10 @@ npm run test
 * Github: [@void-memories](https://github.com/void-memories)
 * LinkedIn: [@voidmemories](https://linkedin.com/in/voidmemories)
 
-👤 **Naman Anand **
+👤 **Himanshu Mishra **
 
-* Website: naman.website
-* Github: [@void-memories](https://github.com/void-memories)
-* LinkedIn: [@voidmemories](https://linkedin.com/in/voidmemories)
+* Github: [@himanshumishra508](https://github.com/himanshumishra508)
+* LinkedIn: [@hhimanshum](https://www.linkedin.com/in/hhimanshum)
 
 👤 **Naman Anand **
 
