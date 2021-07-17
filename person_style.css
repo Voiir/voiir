@@ -23,9 +23,9 @@
 }
 
 .social-media-handles{
-    position: relative;
-    top: 20px;
-    left: 37.5%;
+    position: absolute;
+    top: 300px;
+    left: 517px;
 }
 
 
@@ -60,4 +60,3 @@ td{
     position: absolute;
     right: 3%;
 }
-
