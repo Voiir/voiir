@@ -42,11 +42,10 @@ npm run test
 * Github: [@void-memories](https://github.com/void-memories)
 * LinkedIn: [@voidmemories](https://linkedin.com/in/voidmemories)
 
-👤 **Naman Anand **
+👤 ** Koustav Ghosh **
 
-* Website: naman.website
-* Github: [@void-memories](https://github.com/void-memories)
-* LinkedIn: [@voidmemories](https://linkedin.com/in/voidmemories)
+* [Github](https://github.com/koustavghosh05)
+* [Linkedin](https://www.linkedin.com/in/koustav-ghosh/)
 
 ## Show your support
 
