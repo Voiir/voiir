@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chivo&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'poppins';
+}
+
+/* BODY */
+
+.flex-bio-data{
+    display: flex;
+    justify-content: center;
+}
+
+.flex-box{
+    flex: 0.15;
+    border: 2px solid grey;
+    margin-right: 30px;
+    height: 160px;
+}
+
+.social-media-handles{
+    position: absolute;
+    top: 300px;
+    left: 517px;
+}
+
+
+td{
+    padding-right: 20px;
+    padding-bottom: 5px;
+}
+
+
+
+
+/* FOOTER*/
+
+.footer {
+    display: inline-block;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color:grey;
+    color: white;
+    box-shadow: 20px 20px 20px 20px grey;
+ }
+
+
+/* need to be made responsive by media query*/
+.about-legal{
+    position: absolute;
+    right: 8%;
+}
+.terms-legal{
+    position: absolute;
+    right: 3%;
+}
