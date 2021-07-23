@@ -33,6 +33,9 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
+app.use('/api/setUser',middlew.auth);
+
+
 app.post("/api/setUser", (req, res) => {
   const emailId = req.body.emailId;
   const username = req.body.username;
