@@ -1,6 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const admin = require("firebase-admin");
+const middlew = require("express-firebase-middleware");
 const app = express();
 
 var serviceAccount = require("./voiir-a23cb-firebase-adminsdk-8x041-38fcd8f12d.json");
