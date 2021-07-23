@@ -35,6 +35,7 @@ app.use(express.json());
 
 app.use('/api/setUser',middlew.auth);
 app.use('/api/userExists',middlew.auth);
+app.use('/api/userSearch',middlew.auth);
 
 app.post("/api/setUser", (req, res) => {
   const emailId = req.body.emailId;
