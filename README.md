@@ -27,27 +27,37 @@ npm run test
 
 👤 **Naman Anand **
 
-* Website: naman.website
-* Github: [@void-memories](https://github.com/void-memories)
-* LinkedIn: [@voidmemories](https://linkedin.com/in/voidmemories)
+> <a href="https://github.com/void-memories"> <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHubLogo"> </a>
+<a href="https://linkedin.com/in/voidmemories"> <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="GmailLogo"> </a>
+<a href=""> <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="InstaLogo"> </a>
+<a href=""> <img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" alt="TwitLogo"> </a>
+
 
 👤 **Naman Anand **
 
-* Website: naman.website
-* Github: [@void-memories](https://github.com/void-memories)
-* LinkedIn: [@voidmemories](https://linkedin.com/in/voidmemories)
+> <a href=""> <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHubLogo"> </a>
+<a href=""> <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="GmailLogo"> </a>
+<a href=""> <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="InstaLogo"> </a>
+<a href=""> <img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" alt="TwitLogo"> </a>
+
 
 👤 **Naman Anand **
 
-* Website: naman.website
-* Github: [@void-memories](https://github.com/void-memories)
-* LinkedIn: [@voidmemories](https://linkedin.com/in/voidmemories)
+> <a href=""> <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHubLogo"> </a>
+<a href=""> <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="GmailLogo"> </a>
+<a href=""> <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="InstaLogo"> </a>
+<a href=""> <img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" alt="TwitLogo"> </a>
 
-👤 **Naman Anand **
 
-* Website: naman.website
-* Github: [@void-memories](https://github.com/void-memories)
-* LinkedIn: [@voidmemories](https://linkedin.com/in/voidmemories)
+👤 ** Koustav Ghosh **
+
+> <a href="https://github.com/koustavghosh05"> <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHubLogo"> </a>
+<a href="https://www.linkedin.com/in/koustav-ghosh/"> <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="GmailLogo"> </a>
+<a href=""> <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="InstaLogo"> </a>
+<a href=""> <img src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" alt="TwitLogo"> </a>
+
+
+<br/>
 
 ## Show your support
 
