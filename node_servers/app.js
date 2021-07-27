@@ -189,50 +189,65 @@ app.get("/api/user/:username", (req, res) => {
 });
 
 app.post("/api/updateAccount", (req, res) => {
-  // const platform = req.body.platform;
-  // const url = req.body.url;
-  // const username = req.body.username;
-  var idToken = req.header('Authorization');
-  if(idToken==undefined){
+  var idToken = req.header("Authorization");
+  if (idToken == undefined) {
     console.log("no header received");
     return null;
   }
 
-  idToken = idToken.substr(7,idToken.length);
+  idToken = idToken.substr(7, idToken.length);
 
-  firebaseAdmin.auth().verifyIdToken(idToken).then(decodedToken=>{
-    let uid = decodedToken.uid;
+  firebaseAdmin
+    .auth()
+    .verifyIdToken(idToken)
+    .then((decodedToken) => {
+      let uid = decodedToken.uid;
 
-    firebaseAdmin.auth().getUser(uid).then(userRecord=>{
-      var emailId = userRecord.email;
-      firedb.collection('UserAuth').doc(emailId).get().then(docSnapshot=>{
-        var username ;
-      })
-    })
-  })
+      firebaseAdmin
+        .auth()
+        .getUser(uid)
+        .then((userRecord) => {
+          var emailId = userRecord.email;
+          firedb
+            .collection("UserAuth")
+            .doc(emailId)
+            .get()
+            .then((docSnapshot) => {
+              var username = docSnapshot.data().username;
+              var url = req.body.url;
+              var platform = req.body.platform;
+              console.log(username);
+              (async () => {
+                try {
+                  const userDoc = firedb
+                    .collection("UserCollection")
+                    .doc(username);
+                  let arrayUnion = userDoc.update({
+                    connectedPlatform:
+                      admin.firestore.FieldValue.arrayUnion(platform),
+                  });
 
-  // (async () => {
-  //   try {
-  //     const userDoc = await firedb.collection("UserCollection").doc(username);
-  //     let arrayUnion = userDoc.update({
-  //       connectedPlatform: admin.firestore.FieldValue.arrayUnion(platform),
-  //     });
-
-  //     await firedb
-  //       .collection("UserDataCollection")
-  //       .doc(username)
-  //       .set(
-  //         {
-  //           accounts: { [`${platform}`]: url },
-  //         },
-  //         { merge: true }
-  //       );
-  //     return res.status(200).send("User Updated");
-  //   } catch (error) {
-  //     console.log(error);
-  //     return res.status(500).send(error);
-  //   }
-  // })();
+                  firedb
+                    .collection("UserDataCollection")
+                    .doc(username)
+                    .set(
+                      {
+                        accounts: { [`${platform}`]: url },
+                      },
+                      { merge: true }
+                    )
+                    .then(() => {
+                      console.log("Profile Updated");
+                      return res.status(200).send("User Updated");
+                    });
+                } catch (error) {
+                  console.log(error);
+                  return res.status(500).send(error);
+                }
+              })();
+            });
+        });
+    });
 });
 
 app.post("/api/userBookmark", (req, res) => {
