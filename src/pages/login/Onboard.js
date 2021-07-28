@@ -19,10 +19,9 @@ function Onboard(props) {
       function onSubmit(event){
           event.preventDefault();
 
-          dict['emailId']='asdf';
-          dict['name']='asdf';
-          dict['dpUrl']='asdf';
-          
+          dict['emailId']=props.user.email;
+          dict['name']=props.user.displayName;
+          dict['dpUrl']=props.user.photoURL;
           dict['username']=usernameInput.current.value;
           dict['city']=cityInput.current.value;
           dict['state']=stateInput.current.value;

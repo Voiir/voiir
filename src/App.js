@@ -37,7 +37,7 @@ class App extends Component {
       <Homepage></Homepage>
       <Footer></Footer>
       {this.state.isLoginDialog && !user && <Login state={this.state} googleLogin={signInWithGoogle} user={user} setLoginDialog={this.setState}></Login>}
-      {this.state.isLoginDialog && user && <Onboard state={this.state} setLoginDialog={this.setState}></Onboard> }
+      {this.state.isLoginDialog && user && <Onboard state={this.state} user={user} setLoginDialog={this.setState}></Onboard> }
     </div>
     );
   }
