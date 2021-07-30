@@ -80,7 +80,7 @@ app.post("/api/setUser", (req, res) => {
   });
 });
 
-app.get("/api/userExists", (req, res) => {
+app.post("/api/userExists", (req, res) => {
   const emailId = req.body.emailId;
 
   (async () => {
@@ -100,7 +100,7 @@ app.get("/api/userExists", (req, res) => {
   })();
 });
 
-app.get("/api/userSearch", (req, res) => {
+app.post("/api/userSearch", (req, res) => {
   const name = req.body.name;
 
   (async () => {
@@ -215,7 +215,7 @@ app.post("/api/userBookmark", (req, res) => {
   })();
 });
 
-app.get("/api/usernameExist", (req, res) => {
+app.post("/api/usernameExist", (req, res) => {
   const requestedUsername = req.body.requestedUsername;
   (async () => {
     try {
