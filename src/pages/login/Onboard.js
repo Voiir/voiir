@@ -26,7 +26,8 @@ function Onboard(props) {
           dict['city']=cityInput.current.value;
           dict['state']=stateInput.current.value;
           dict['profession']=professionInput.current.value;
-
+          
+          toggle();
           console.log(dict);
 
           fetch("http://voiir.herokuapp.com/api/setUser/",{
