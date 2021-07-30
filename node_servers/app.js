@@ -35,11 +35,11 @@ app.use(express.json());
 
 app.use("/api/setUser", middlew.auth);
 app.use("/api/userExists", middlew.auth);
-app.use('/api/userSearch',middlew.auth);
-app.use('/api/user/:username',middlew.auth);
-app.use('/api/updateAccount',middlew.auth);
-app.use('/api/userBookmark',middlew.auth);
-app.use('/api/usernameExist',middlew.auth);
+app.use("/api/userSearch",middlew.auth);
+app.use("/api/user/:username",middlew.auth);
+app.use("/api/updateAccount",middlew.auth);
+app.use("/api/userBookmark",middlew.auth);
+app.use("/api/usernameExist",middlew.auth);
 
 
 app.post("/api/setUser", (req, res) => {
