@@ -41,9 +41,6 @@ app.use('/api/updateAccount',middlew.auth);
 app.use('/api/userBookmark',middlew.auth);
 app.use('/api/usernameExist',middlew.auth);
 
-app.get("/", (req, res) => {
-  res.render('login1');
-});
 
 app.post("/api/setUser", (req, res) => {
   const emailId = req.body.emailId;
