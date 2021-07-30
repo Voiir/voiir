@@ -30,7 +30,7 @@ function Onboard(props) {
           toggle();
           console.log(dict);
 
-          fetch("http://voiir.herokuapp.com/api/setUser/",{
+          fetch("https://voiir.herokuapp.com/api/setUser/",{
               method:'post',
               headers:{'Content-Type': 'application/json'},
               body:JSON.stringify(dict)

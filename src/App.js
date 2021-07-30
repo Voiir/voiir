@@ -52,7 +52,7 @@ class App extends Component {
     function userExists(user,state){
   
         
-        fetch("http://voiir.herokuapp.com/api/userExists/",{
+        fetch("https://voiir.herokuapp.com/api/userExists/",{
         method:'post',
         headers:{'Content-Type': 'application/json',Accept:'text/plain'},
         body:JSON.stringify({'emailId':user.email})
