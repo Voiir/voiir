@@ -35,59 +35,79 @@ app.use(express.json());
 
 app.use("/api/setUser", middlew.auth);
 app.use("/api/userExists", middlew.auth);
-app.use("/api/userSearch",middlew.auth);
-app.use("/api/user/:username",middlew.auth);
-app.use("/api/updateAccount",middlew.auth);
-app.use("/api/userBookmark",middlew.auth);
-app.use("/api/usernameExist",middlew.auth);
-
+app.use("/api/userSearch", middlew.auth);
+app.use("/api/user/:username", middlew.auth);
+app.use("/api/updateAccount", middlew.auth);
+app.use("/api/userBookmark", middlew.auth);
+app.use("/api/usernameExist", middlew.auth);
 
 app.post("/api/setUser", (req, res) => {
-  const emailId = req.body.emailId;
-  const username = req.body.username;
-  const name = req.body.name;
-  const dpUrl = req.body.dpUrl;
-  const city = req.body.city;
-  const state = req.body.state;
-  const profession = req.body.profession;
+  var idToken = req.header("Authorization");
+  if (idToken == undefined) {
+    console.log("no header received");
+    return null;
+  }
 
-  let usersRef = firedb.collection("UserAuth").doc(emailId);
-  usersRef.get().then((docSnapshot) => {
-    if (!docSnapshot.exists) {
-      (async () => {
-        try {
-          await firedb.collection("UserAuth").doc(emailId).create({
-            createdAt: new Date(),
-            username: username,
+  idToken = idToken.substr(7, idToken.length);
+
+  firebaseAdmin
+    .auth()
+    .verifyIdToken(idToken)
+    .then((decodedToken) => {
+      let uid = decodedToken.uid;
+
+      firebaseAdmin
+        .auth()
+        .getUser(uid)
+        .then((userRecord) => {
+          var name = userRecord.displayName;
+          var dpUrl = userRecord.photoURL;
+          var emailId = userRecord.email;
+          var username = req.body.username;
+          var city = req.body.city;
+          var state = req.body.state;
+          var profession = req.body.profession;
+          // console.log(name, dpUrl, emailId);
+
+          let usersRef = firedb.collection("UserAuth").doc(emailId);
+          usersRef.get().then((docSnapshot) => {
+            if (!docSnapshot.exists) {
+              (async () => {
+                try {
+                  await firedb.collection("UserAuth").doc(emailId).create({
+                    createdAt: new Date(),
+                    username: username,
+                  });
+                  await firedb
+                    .collection("UserCollection")
+                    .doc(username)
+                    .create({
+                      name: name,
+                      dpUrl: dpUrl,
+                      city: city,
+                      state: state,
+                      profession: profession,
+                      connectedPlatform: ["gmail"],
+                    });
+                  await firedb
+                    .collection("UserDataCollection")
+                    .doc(username)
+                    .create({
+                      accounts: { gmail: emailId },
+                      bookmarks: [],
+                    });
+                  return res.status(201).send("User Created");
+                } catch (error) {
+                  console.log(error);
+                  return res.status(500).send();
+                }
+              })();
+            } else {
+              return res.status(409).send();
+            }
           });
-          await firedb
-            .collection("UserCollection")
-            .doc(username)
-            .create({
-              name: name,
-              dpUrl: dpUrl,
-              city: city,
-              state: state,
-              profession: profession,
-              connectedPlatform: ["gmail"],
-            });
-          await firedb
-            .collection("UserDataCollection")
-            .doc(username)
-            .create({
-              accounts: { gmail: emailId },
-              bookmarks: [],
-            });
-          return res.status(201).send("User Created");
-        } catch (error) {
-          console.log(error);
-          return res.status(500).send();
-        }
-      })();
-    } else {
-      return res.status(409).send();
-    }
-  });
+        });
+    });
 });
 
 app.get("/api/userExists", (req, res) => {
@@ -182,32 +202,65 @@ app.get("/api/user/:username", (req, res) => {
 });
 
 app.post("/api/updateAccount", (req, res) => {
-  const platform = req.body.platform;
-  const url = req.body.url;
-  const username = req.body.username;
+  var idToken = req.header("Authorization");
+  if (idToken == undefined) {
+    console.log("no header received");
+    return null;
+  }
 
-  (async () => {
-    try {
-      const userDoc = await firedb.collection("UserCollection").doc(username);
-      let arrayUnion = userDoc.update({
-        connectedPlatform: admin.firestore.FieldValue.arrayUnion(platform),
-      });
+  idToken = idToken.substr(7, idToken.length);
 
-      await firedb
-        .collection("UserDataCollection")
-        .doc(username)
-        .set(
-          {
-            accounts: { [`${platform}`]: url },
-          },
-          { merge: true }
-        );
-      return res.status(200).send("User Updated");
-    } catch (error) {
-      console.log(error);
-      return res.status(500).send(error);
-    }
-  })();
+  firebaseAdmin
+    .auth()
+    .verifyIdToken(idToken)
+    .then((decodedToken) => {
+      let uid = decodedToken.uid;
+
+      firebaseAdmin
+        .auth()
+        .getUser(uid)
+        .then((userRecord) => {
+          var emailId = userRecord.email;
+          firedb
+            .collection("UserAuth")
+            .doc(emailId)
+            .get()
+            .then((docSnapshot) => {
+              var username = docSnapshot.data().username;
+              var url = req.body.url;
+              var platform = req.body.platform;
+              console.log(username);
+              (async () => {
+                try {
+                  const userDoc = firedb
+                    .collection("UserCollection")
+                    .doc(username);
+                  let arrayUnion = userDoc.update({
+                    connectedPlatform:
+                      admin.firestore.FieldValue.arrayUnion(platform),
+                  });
+
+                  firedb
+                    .collection("UserDataCollection")
+                    .doc(username)
+                    .set(
+                      {
+                        accounts: { [`${platform}`]: url },
+                      },
+                      { merge: true }
+                    )
+                    .then(() => {
+                      console.log("Profile Updated");
+                      return res.status(200).send("User Updated");
+                    });
+                } catch (error) {
+                  console.log(error);
+                  return res.status(500).send(error);
+                }
+              })();
+            });
+        });
+    });
 });
 
 app.post("/api/userBookmark", (req, res, next) => {
