@@ -6,24 +6,33 @@ import Footer from './shared/Footer';
 import Homepage from './pages/homepage/Homepage';
 import Login from './pages/login/Login';
 import Onboard from './pages/login/Onboard';
+import Loader from './shared/Loader';
 
 import withFirebaseAuth from 'react-with-firebase-auth'
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import firebaseConfig from '../src/secret/firebaseConfig';
+// import { response } from '../node_servers/app';
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 class App extends Component {
+  
   constructor() {
     super();
-  
     this.state = {
-      isLoginDialog: false
+      isLoginDialog: false,
+      doesUserExists:false,
+      isLoading:false,
     };
+    this.setState = this.setState.bind(this);
   }
 
+  
+
   render() {
-    this.setState = this.setState.bind(this);
+    // let ifUserExists=false;
+
+    
 
     const {
       user,
@@ -31,13 +40,42 @@ class App extends Component {
       signInWithGoogle,
     } = this.props;
 
+
+    function dual(state){
+      state({isLoading:true});
+      signInWithGoogle().then(function(sone){
+          console.log('signin complete');
+          userExists(sone.user,state);
+      });
+    }
+
+    function userExists(user,state){
+  
+        
+        fetch("http://voiir.herokuapp.com/api/userExists/",{
+        method:'post',
+        headers:{'Content-Type': 'application/json',Accept:'text/plain'},
+        body:JSON.stringify({'emailId':user.email})
+    }).then(function(body){
+      console.log('in here');
+      return body.text(); // <--- THIS PART WAS MISSING
+    }).then(function(data) {
+      console.log(data);
+      if(data=='true') state({doesUserExists:true});
+      else state({doesUserExists:false});
+      state({isLoading:false});
+    });
+      
+    }
+
     return (
       <div className="App">
       <Navbar state={this.state} setLoginDialog={this.setState} signOut={signOut} user={user}></Navbar>
       <Homepage></Homepage>
       <Footer></Footer>
-      {this.state.isLoginDialog && !user && <Login state={this.state} googleLogin={signInWithGoogle} user={user} setLoginDialog={this.setState}></Login>}
-      {this.state.isLoginDialog && user && <Onboard state={this.state} setLoginDialog={this.setState}></Onboard> }
+      {this.state.isLoading && <Loader className="Loader"></Loader>}
+      {this.state.isLoginDialog && !user && <Login state={this.state} googleLogin={() => dual(this.setState)} user={user} setLoginDialog={this.setState}></Login>}
+      {this.state.isLoginDialog && user && !this.state.doesUserExists && <Onboard state={this.state} user={user} setLoginDialog={this.setState}></Onboard> }
     </div>
     );
   }
@@ -48,6 +86,8 @@ const firebaseAppAuth = firebaseApp.auth();
 const providers = {
   googleProvider: new firebase.auth.GoogleAuthProvider(),
 };
+
+
 
 export default withFirebaseAuth({
   providers,
