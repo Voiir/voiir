@@ -12,7 +12,7 @@ var firebaseAdmin = admin.initializeApp({
 });
 
 var firedb = firebaseAdmin.firestore();
-
+app.set("view engine", "ejs");
 app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 
@@ -111,23 +111,36 @@ app.post("/api/setUser", (req, res) => {
 });
 
 app.get("/api/userExists", (req, res) => {
-  const emailId = req.body.emailId;
 
-  (async () => {
-    try {
-      let usersRef = await firedb.collection("UserAuth").doc(emailId);
-      usersRef.get().then((docSnapshot) => {
-        if (docSnapshot.exists) {
-          return res.status(403).send(true);
-        } else {
-          return res.status(404).send(false);
-        }
-      });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).send(error);
-    }
-  })();
+  let authToken=req.header("Authorization");
+  if(authToken == undefined){
+    console.log("Header is not received.");
+    return null;
+  }
+  authToken = authToken.substr(7, authToken.length);
+
+  firebaseAdmin.auth().verifyIdToken(authToken).then((decodedToken)=>{
+    const emailId = String(decodedToken.email);
+    (async () => {
+      try {
+        let usersRef = await firedb.collection("UserAuth").doc(emailId);
+        usersRef.get().then((docSnapshot) => {
+          if (docSnapshot.exists) {
+            return res.status(403).send(true);
+          } else {
+            return res.status(404).send(false);
+          }
+        });
+      } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);
+      }
+    })();
+  });
+
+
+  
+
 });
 
 app.get("/api/userSearch", (req, res) => {
@@ -250,32 +263,49 @@ app.post("/api/updateAccount", (req, res) => {
     });
 });
 
-app.post("/api/userBookmark", (req, res) => {
+app.post("/api/userBookmark", (req, res, next) => {
   const usernameAdd = req.body.usernameAdd;
-  const usernameHost = req.body.usernameHost;
+  let usernameHost;
 
-  (async () => {
-    try {
-      const userDoc = await firedb
-        .collection("UserDataCollection")
-        .doc(usernameHost);
+  let authToken = req.header("Authorization");
+  if(authToken ==  undefined){
+    console.log("Header is not received.");
+    return null;
+  }
+  authToken = authToken.substring(7, authToken.length);
 
-      if ((await userDoc.get()).data().bookmarks.indexOf(usernameAdd) == -1) {
-        let arrayUnion = userDoc.update({
-          bookmarks: admin.firestore.FieldValue.arrayUnion(usernameAdd),
-        });
-        return res.status(200).send("Profile Bookmarked");
-      } else {
-        let arrayUnion = userDoc.update({
-          bookmarks: admin.firestore.FieldValue.arrayRemove(usernameAdd),
-        });
-        return res.status(200).send("Profile Bookmark Removed");
+  firebaseAdmin.auth().verifyIdToken(authToken).then((decodedToken)=>{
+    let host=String(decodedToken.email);
+   
+    (async()=>{
+      const userDocUsername = await firedb
+        .collection("UserAuth")
+        .doc(host);
+        usernameHost = (await userDocUsername.get()).data().username;     
+
+      try {
+        const userDocAdd = await firedb
+          .collection("UserDataCollection")
+          .doc(usernameHost);
+  
+        if ((await userDocAdd.get()).data().bookmarks.indexOf(usernameAdd) == -1) {
+          let arrayUnion = userDocAdd.update({
+            bookmarks: admin.firestore.FieldValue.arrayUnion(usernameAdd),
+          });
+          return res.status(200).send("Profile Bookmarked");
+        } else {
+          let arrayUnion = userDocAdd.update({
+            bookmarks: admin.firestore.FieldValue.arrayRemove(usernameAdd),
+          });
+          return res.status(200).send("Profile Bookmark Removed");
+        }
+      } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);
       }
-    } catch (error) {
-      console.log(error);
-      return res.status(500).send(error);
-    }
-  })();
+    })();
+  });
+
 });
 
 app.get("/api/usernameExist", (req, res) => {
