@@ -2,7 +2,7 @@ import navbarStyles from './Navbar.module.css';
 function Navbar(props){
   function toggle(){
     props.setLoginDialog({isLoginDialog: !props.state.isLoginDialog});
-
+    props.setLoginDialog({isLoading:true});
     // console.log('fncalled');
   }
   return(
