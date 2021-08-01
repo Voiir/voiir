@@ -4,15 +4,21 @@ import logo from '../../assets/logo.svg';
 import './Login.module.css'
 
 function Login(props){
+  
+
   function toggle(){
     props.setLoginDialog({isLoginDialog: !props.state.isLoginDialog});
+  }
+
+  function stopLoading(){
+    props.setLoginDialog({isLoading:false});
   }
 
     return(
       <div>
         <div className={loginStyles.backdrop}>
         <div className={loginStyles.login}>
-        <img src={art} alt="" className={loginStyles.art} />
+        <img onLoad={stopLoading} src={art} alt="" className={loginStyles.art} />
         <div className={loginStyles.popup}>
         <a className={loginStyles.cross} onClick={toggle} href="#">x</a>
           <p className={loginStyles.title}>welcome to voiir</p>
