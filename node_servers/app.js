@@ -143,7 +143,7 @@ app.get("/api/userExists", (req, res) => {
 
 });
 
-app.get("/api/userSearch", (req, res) => {
+app.post("/api/userSearch", (req, res) => {
   const name = req.body.name;
 
   (async () => {
