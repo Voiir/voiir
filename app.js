@@ -3,7 +3,7 @@ const logger = require("morgan");
 const admin = require("firebase-admin");
 const app = express();
 
-var serviceAccount = require("./voiir-a23cb-firebase-adminsdk-8x041-38fcd8f12d.json");
+var serviceAccount = require("./voiir-firebase-adminsdk.json");
 const { json } = require("express");
 
 var firebaseAdmin = admin.initializeApp({
