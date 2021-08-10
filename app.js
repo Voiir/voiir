@@ -128,7 +128,7 @@ app.post("/api/userSearch", (req, res) => {
           if (result) {
             console.log(nameOfUser);
             const selectedUser = doc.data();
-            response.push(selecconnectedPlatformtedUser);
+            response.push(selectedUser);
           }
         }
         return response;
@@ -136,7 +136,7 @@ app.post("/api/userSearch", (req, res) => {
       return res.status(200).send(response);
     } catch (error) {
       console.log(error);
-      return res.send(500).send(error);
+      return res.status(500).send(error);
     }
   })();
 });
