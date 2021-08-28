@@ -1,0 +1,8 @@
+module.exports = function(platform,username){
+    switch(platform){
+        case 'linkedin':
+            url = 'https://www.linkedin.com/in/' + username;
+            return url;
+            break;
+    }
+};
