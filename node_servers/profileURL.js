@@ -4,5 +4,9 @@ module.exports = function(platform,username){
             url = 'https://www.linkedin.com/in/' + username;
             return url;
             break;
+        case 'twitter':
+            url = 'https://twitter.com/'+username;
+            return url;
+            break;
     }
 };
