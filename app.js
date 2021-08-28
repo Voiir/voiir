@@ -2,7 +2,7 @@ const express = require("express");
 const logger = require("morgan");
 const admin = require("firebase-admin");
 const app = express();
-require('dotenv').config();
+require("dotenv").config();
 
 const { json } = require("express");
 
@@ -42,6 +42,10 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.send("Server is Up!!!!");
+});
 
 app.post("/api/setUser", (req, res) => {
   const emailId = req.body.emailId;
