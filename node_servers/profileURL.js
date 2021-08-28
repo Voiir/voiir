@@ -8,5 +8,9 @@ module.exports = function(platform,username){
             url = 'https://twitter.com/'+username;
             return url;
             break;
+        case 'instagram':
+            url = 'https://www.instagram.com/'+username;
+            return url;
+            break;
     }
 };
