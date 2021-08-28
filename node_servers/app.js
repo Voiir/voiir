@@ -3,6 +3,7 @@ const logger = require("morgan");
 const admin = require("firebase-admin");
 const middlew = require("express-firebase-middleware");
 const app = express();
+const profileURL = require('./profileURL');
 require('dotenv').config();
 
 const { json } = require("express");
@@ -238,8 +239,10 @@ app.post("/api/updateAccount", (req, res) => {
             .get()
             .then((docSnapshot) => {
               var username = docSnapshot.data().username;
-              var url = req.body.url;
+              // var url = req.body.url;
               var platform = req.body.platform;
+              var platformUsername = req.body.platformUsername;
+              var url  = profileURL(platform,platformUsername);
               console.log(username);
               (async () => {
                 try {
