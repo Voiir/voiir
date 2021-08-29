@@ -7,6 +7,7 @@ import Homepage from './pages/homepage/Homepage';
 import Login from './pages/login/Login';
 import Onboard from './pages/login/Onboard';
 import Loader from './shared/Loader';
+import Result from './pages/result/Result'
 
 import withFirebaseAuth from 'react-with-firebase-auth'
 import firebase from 'firebase/app';
@@ -23,6 +24,7 @@ class App extends Component {
       isLoginDialog: false,
       doesUserExists:false,
       isLoading:false,
+      resultData:{status:null,result:[]}
     };
     this.setState = this.setState.bind(this);
   }
@@ -71,7 +73,8 @@ class App extends Component {
     return (
       <div className="App">
       <Navbar state={this.state} setLoginDialog={this.setState} signOut={signOut} user={user}></Navbar>
-      <Homepage></Homepage>
+      {this.state.resultData.status==null && <Homepage state={this.state} setResultData={this.setState}></Homepage>}
+      {this.state.resultData.status!=null && <Result state={this.state} setResultData={this.setState}></Result>}
       <Footer></Footer>
       {this.state.isLoading && <Loader className="Loader"></Loader>}
       {this.state.isLoginDialog && !user && <Login state={this.state} googleLogin={() => dual(this.setState)} user={user} setLoginDialog={this.setState}></Login>}

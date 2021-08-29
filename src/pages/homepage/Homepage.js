@@ -1,21 +1,24 @@
 import homepageStyles from './Homepage.module.css';
 import searchIcon from '../../assets/search.svg';
+import {useState} from 'react';
 
-function Homepage(){
+function Homepage(props){
+  
   
 function getResults(){
   var search = document.getElementById("searchBarID").value;
   console.log(search);
   fetch("https://voiir.herokuapp.com/api/userSearch/",{
         method:'post',
-        headers:{'Content-Type': 'application/json',},
+        headers:{'Content-Type': 'application/json'},
         body:JSON.stringify({'name':search})
     }).then(function(body){
       console.log('in here');
-      return body.text(); // <--- THIS PART WAS MISSING
+      return body.json(); // <--- THIS PART WAS MISSING
     }).then(function(data) {
       console.log(data);
-      
+      props.setResultData({resultData: {status:0,result:data}});
+      // console.log(props.state.resultData);
     });
 
 }
