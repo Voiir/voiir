@@ -5,10 +5,11 @@ import {useState} from 'react';
 function Homepage(props){
   
   
-function getResults(){
+function getResults(e){
+  e.preventDefault();
   var search = document.getElementById("searchBarID").value;
   console.log(search);
-  fetch("https://voiir.herokuapp.com/api/userSearch/",{
+  fetch("https://voiir.herokuapp.com/api/userSearch",{
         method:'post',
         headers:{'Content-Type': 'application/json'},
         body:JSON.stringify({'name':search})
@@ -31,7 +32,7 @@ function getResults(){
         </div>
         <form action>
           <input type="text" className={homepageStyles.searchHint} id='searchBarID' placeholder="whom are you looking for?" />
-          <button type="submit" className={homepageStyles.button}  onClick={getResults}>
+          <button type="submit" className={homepageStyles.button}  onClick={(e) => {getResults(e)}}>
             <img src={searchIcon}></img>
           </button>
         </form>
