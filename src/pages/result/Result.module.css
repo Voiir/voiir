@@ -1,11 +1,50 @@
 
-
 .button{
+  border: 4px solid #9a3fcb;
+  height: 64px;
+  width: 64px;
+  background-color: #9a3fcb;
+  float: left;
+}
+
+.fa-search{
+  color: white;
+}
+
+.searchBar{
+position: relative; 
+/* top: 35%; */
+left: 0; 
+right: 0; 
+margin:auto;
+width: 808px;
+padding-top: 124px;
+/* padding-bottom: 40px; */
+/* background-color: red; */
+}
+
+.searchHint{
+  font-size: 16px;
+  font-weight: 400;
+  color: #999999;
+border: 4px solid #9A3FCB;border-right: 0px;
+  width: 740px;
+  height: 56px;
+  float: left;
+}
+
+.homepage ::placeholder{
+  padding-left: 20px;
+  font-family: 'poppins';
+}
+
+
+/* .button{
     border: 4px solid #9a3fcb;
     height: 56px;
     width: 56px;
     background-color: #9a3fcb;
-}
+} */
 
 .fa-search{
     color: white;
@@ -14,7 +53,7 @@
 
 
 .masterPad{
-    padding-top: 200px;
+    padding-top: 130px;
     padding-bottom: 200px;
 }
 .parent{
@@ -22,7 +61,7 @@
     left: 0; 
     right: 0; 
     margin:auto;
-    width: 800px;
+    width: 804px;
     height: 148px;
     margin-bottom: 24px;
 }
@@ -76,7 +115,7 @@
 .butn{
     border: 4px solid #9a3fcb;
     height: 148px;
-    width: 56px;
+    width: 64px;
     background-color: #9a3fcb;
 }
 
