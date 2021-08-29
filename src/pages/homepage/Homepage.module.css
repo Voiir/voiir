@@ -41,5 +41,7 @@ border-right: 0px;
   font-family: 'poppins';
 }
 
-
+textarea:focus, input:focus{
+  outline: none;
+}
 
