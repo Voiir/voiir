@@ -8,7 +8,7 @@ function Result(props){
     e.preventDefault();
     var search = document.getElementById("searchBarID").value;
     console.log(search);
-    fetch("https://voiir.herokuapp.com/api/userSearch",{
+    fetch("https://api-voiir.herokuapp.com/api/userSearch",{
           method:'post',
           headers:{'Content-Type': 'application/json'},
           body:JSON.stringify({'name':search})
