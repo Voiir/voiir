@@ -24,6 +24,7 @@
     -webkit-transform: translateY(-50%);
     right: 105px;
     color: black;
+    cursor: pointer;
 }
 
 .termsLegal{
@@ -32,5 +33,6 @@
     transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
     right: 40px;
+    cursor: pointer;
     color: black;
 }
