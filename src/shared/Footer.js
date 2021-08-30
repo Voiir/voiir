@@ -4,7 +4,7 @@ function Footer(){
     return(
         <div className={footerStyles.footer}>
         <p className={footerStyles.copyright}>
-          © 2021 Voir. All rights reserved.
+          © 2021 Voiir. All rights reserved.
         </p>
         <p className={footerStyles.aboutLegal} href="#">About</p>
         <p className={footerStyles.termsLegal} href="#">Terms</p>
