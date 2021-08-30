@@ -5,6 +5,7 @@
   width: 64px;
   background-color: #9a3fcb;
   float: left;
+  cursor: pointer;
 }
 
 .fa-search{
