@@ -8,7 +8,9 @@ function Navbar(props){
   return(
     <div className={navbarStyles.navbar}>
     <p className={navbarStyles.logo}>
-      vo<span style={{color: '#9A3FCB'}}>ii</span>r
+      <a href="" onclick="location.reload()">
+        vo<span style={{color: '#9A3FCB'}}>ii</span>r
+      </a>
     </p>
     {props.user && <a className={navbarStyles.aboutLegal} href="#" >{props.user.displayName.split(' ')[0]}</a>}
     {!props.user && <a className={navbarStyles.aboutLegal} href="#" onClick={toggle}>Login</a>}
