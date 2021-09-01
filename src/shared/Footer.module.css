@@ -2,9 +2,10 @@
     position: fixed;
     bottom: 0; 
     width: 100%;
-    color: white;
     box-shadow:0px 0px 30px 0px rgba(0, 0, 0, 0.1);
     height: 80px;
+    z-index: 99999;
+    background-color: white;
  }
 
  .copyright{
