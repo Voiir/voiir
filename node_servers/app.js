@@ -13,7 +13,7 @@ var firebaseAdmin = admin.initializeApp({
     type: process.env.type,
     project_id: process.env.project_id,
     private_key_id: process.env.project_key_id,
-    private_key: process.env.private_key,
+    private_key: process.env.private_key.replace(/\\n/g, '\n'),
     client_email: process.env.client_email,
     client_id: process.env.client_id,
     auth_uri: process.env.auth_uri,
@@ -132,27 +132,43 @@ app.get("/api/userExists", (req, res) => {
   authToken = authToken.substr(7, authToken.length);
 
   firebaseAdmin.auth().verifyIdToken(authToken).then((decodedToken)=>{
+    var returnStatusCode;
+    var returnResponse; 
+    var returnMessage;
+    var returnType="bool";
     const emailId = String(decodedToken.email);
     (async () => {
       try {
         let usersRef = await firedb.collection("UserAuth").doc(emailId);
-        usersRef.get().then((docSnapshot) => {
+        usersRef.get().then((docSnapshot) => {  
           if (docSnapshot.exists) {
-            return res.status(403).send(true);
+            returnStatusCode = 403;
+            returnMessage = "User Already Exists";
+            returnResponse = true;
           } else {
-            return res.status(404).send(false);
+            returnStatusCode = 402;
+            returnMessage = "User Does not Exists";
+            returnResponse = false;
           }
+          return res.status(returnStatusCode).json({
+            message : returnMessage,
+            response : returnResponse,
+            type: returnType,
+          });
         });
       } catch (error) {
         console.log(error);
-        return res.status(500).send(error);
-      }
+        returnStatusCode = 500;
+        returnMessage = error;
+        returnResponse = NULL; 
+        return res.status(returnStatusCode).json({
+          message : returnMessage,
+          response : returnResponse,
+          type: returnType,
+        });
+      } 
     })();
   });
-
-
-  
-
 });
 
 app.post("/api/userSearch", (req, res) => {

@@ -12,5 +12,9 @@ module.exports = function(platform,username){
             url = 'https://www.instagram.com/'+username;
             return url;
             break;
+        case 'facebook':
+            url = 'https://www.facebook.com/'+username;
+            return url;
+            break;
     }
 };
