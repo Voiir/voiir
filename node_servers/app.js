@@ -124,23 +124,23 @@ app.post("/api/setUser", (req, res) => {
 
 app.get("/api/userExists", (req, res) => {
 
-  let authToken=req.header("Authorization");
-  if(authToken == undefined){
+  let authToken = req.header("Authorization");
+  if (authToken == undefined) {
     console.log("Header is not received.");
     return null;
   }
   authToken = authToken.substr(7, authToken.length);
 
-  firebaseAdmin.auth().verifyIdToken(authToken).then((decodedToken)=>{
+  firebaseAdmin.auth().verifyIdToken(authToken).then((decodedToken) => {
     var returnStatusCode;
-    var returnResponse; 
+    var returnResponse;
     var returnMessage;
-    var returnType="bool";
+    var returnType = "bool";
     const emailId = String(decodedToken.email);
     (async () => {
       try {
         let usersRef = await firedb.collection("UserAuth").doc(emailId);
-        usersRef.get().then((docSnapshot) => {  
+        usersRef.get().then((docSnapshot) => {
           if (docSnapshot.exists) {
             returnStatusCode = 403;
             returnMessage = "User Already Exists";
@@ -151,8 +151,8 @@ app.get("/api/userExists", (req, res) => {
             returnResponse = false;
           }
           return res.status(returnStatusCode).json({
-            message : returnMessage,
-            response : returnResponse,
+            message: returnMessage,
+            response: returnResponse,
             type: returnType,
           });
         });
@@ -160,13 +160,13 @@ app.get("/api/userExists", (req, res) => {
         console.log(error);
         returnStatusCode = 500;
         returnMessage = error;
-        returnResponse = NULL; 
+        returnResponse = NULL;
         return res.status(returnStatusCode).json({
-          message : returnMessage,
-          response : returnResponse,
+          message: returnMessage,
+          response: returnResponse,
           type: returnType,
         });
-      } 
+      }
     })();
   });
 });
@@ -176,13 +176,13 @@ app.post("/api/userSearch", (req, res) => {
 
   (async () => {
     var returnStatusCode;
-    var returnResponse; 
+    var returnResponse;
     var returnMessage;
-    var returnType="array"; 
+    var returnType = "array";
     try {
       let usersRef = await firedb.collection("UserCollection");
       let response = [];
-      
+
       await usersRef.get().then((querySnapshot) => {
         let docs = querySnapshot.docs;
 
@@ -194,13 +194,13 @@ app.post("/api/userSearch", (req, res) => {
             response.push(selectedUser);
           }
         }
-        if(response.length >=1 ){
-          returnMessage="User's found";
-          returnStatusCode=200;
+        if (response.length >= 1) {
+          returnMessage = "User's found";
+          returnStatusCode = 200;
         }
-        else{
-          returnMessage="No User's found";
-          returnStatusCode=404;
+        else {
+          returnMessage = "No User's found";
+          returnStatusCode = 404;
         }
         return res.status(returnStatusCode).json({
           message: returnMessage,
@@ -208,12 +208,12 @@ app.post("/api/userSearch", (req, res) => {
           type: returnType,
         })
       });
-      
+
     } catch (error) {
       console.log(error);
       returnStatusCode = 500;
       returnMessage = error;
-      returnResponse=NULL;
+      returnResponse = NULL;
       return res.status(returnStatusCode).json({
         message: returnMessage,
         response: response,
@@ -227,9 +227,9 @@ app.get("/api/user/:username", (req, res) => {
   const username = req.params.username;
   (async () => {
     var returnStatusCode;
-    var returnResponse; 
+    var returnResponse;
     var returnMessage;
-    var returnType="object"; 
+    var returnType = "object";
     try {
       const userRef = await firedb.collection("UserCollection").doc(username);
       userRef.get().then(async (docSnapshot) => {
@@ -242,13 +242,13 @@ app.get("/api/user/:username", (req, res) => {
             userCollection: docSnapshot.data(),
             userData: userData.data(),
           };
-          returnMessage="User found";
-          returnStatusCode=200;
-          returnResponse=response; 
+          returnMessage = "User found";
+          returnStatusCode = 200;
+          returnResponse = response;
         } else {
-          returnMessage="No User found";
-          returnStatusCode=404;
-          returnResponse=null;
+          returnMessage = "No User found";
+          returnStatusCode = 404;
+          returnResponse = null;
         }
         return res.status(returnStatusCode).json({
           message: returnMessage,
@@ -258,8 +258,8 @@ app.get("/api/user/:username", (req, res) => {
       });
     } catch (error) {
       console.log(error);
-      returnMessage=error;
-      returnStatusCode=500;
+      returnMessage = error;
+      returnStatusCode = 500;
       return res.status(returnStatusCode).json({
         message: returnMessage,
         response: null,
@@ -277,60 +277,64 @@ app.post("/api/updateAccount", (req, res) => {
   }
 
   idToken = idToken.substr(7, idToken.length);
-
-  firebaseAdmin
-    .auth()
-    .verifyIdToken(idToken)
-    .then((decodedToken) => {
-      let uid = decodedToken.uid;
-
-      firebaseAdmin
-        .auth()
-        .getUser(uid)
-        .then((userRecord) => {
-          var emailId = userRecord.email;
-          firedb
-            .collection("UserAuth")
-            .doc(emailId)
-            .get()
-            .then((docSnapshot) => {
-              var username = docSnapshot.data().username;
-              // var url = req.body.url;
-              var platform = req.body.platform;
-              var platformUsername = req.body.platformUsername;
-              var url  = profileURL(platform,platformUsername);
-              console.log(username);
-              (async () => {
-                try {
-                  const userDoc = firedb
-                    .collection("UserCollection")
-                    .doc(username);
-                  let arrayUnion = userDoc.update({
-                    connectedPlatform:
-                      admin.firestore.FieldValue.arrayUnion(platform),
+  firebaseAdmin.auth().verifyIdToken(idToken).then((decodedToken) => {
+    let uid = decodedToken.uid;
+    firebaseAdmin.auth().getUser(uid).then((userRecord) => {
+      var emailId = userRecord.email;
+      firedb.collection("UserAuth").doc(emailId).get().then((docSnapshot) => {
+        var returnStatusCode;
+        var returnResponse = null;
+        var returnMessage;
+        var returnType = null;
+        if (docSnapshot.exists) {
+          var username = docSnapshot.data().username;
+          var platform = req.body.platform;
+          var platformUsername = req.body.platformUsername;
+          var url = profileURL(platform, platformUsername);
+          (async () => {
+            try {
+              const userDoc = firedb.collection("UserCollection").doc(username);
+              let arrayUnion = userDoc.update({
+                connectedPlatform: admin.firestore.FieldValue.arrayUnion(platform),
+              });
+              firedb.collection("UserDataCollection").doc(username).set(
+                {
+                  accounts: { [`${platform}`]: url },
+                },
+                { merge: true }
+              )
+                .then(() => {
+                  returnMessage="User Profile Updated";
+                  returnStatusCode=200;
+                  return res.status(returnStatusCode).json({
+                    message: returnMessage,
+                    response: returnResponse,
+                    type: returnType,
                   });
-
-                  firedb
-                    .collection("UserDataCollection")
-                    .doc(username)
-                    .set(
-                      {
-                        accounts: { [`${platform}`]: url },
-                      },
-                      { merge: true }
-                    )
-                    .then(() => {
-                      console.log("Profile Updated");
-                      return res.status(200).send("User Updated");
-                    });
-                } catch (error) {
-                  console.log(error);
-                  return res.status(500).send(error);
-                }
-              })();
-            });
-        });
+                });
+            } catch (error) {
+              returnMessage = error;
+              returnStatusCode = 500;
+              return res.status(returnStatusCode).json({
+                message: returnMessage,
+                response: returnResponse,
+                type: returnType,
+              });
+            }
+          })();
+        }
+        else {
+          returnMessage = "User Not found";
+          returnStatusCode = 404;
+          return res.status(returnStatusCode).json({
+            message: returnMessage,
+            response: returnResponse,
+            type: returnType,
+          });
+        }
+      });
     });
+  });
 });
 
 app.post("/api/userBookmark", (req, res, next) => {
@@ -338,26 +342,26 @@ app.post("/api/userBookmark", (req, res, next) => {
   let usernameHost;
 
   let authToken = req.header("Authorization");
-  if(authToken ==  undefined){
+  if (authToken == undefined) {
     console.log("Header is not received.");
     return null;
   }
   authToken = authToken.substring(7, authToken.length);
 
-  firebaseAdmin.auth().verifyIdToken(authToken).then((decodedToken)=>{
-    let host=String(decodedToken.email);
-   
-    (async()=>{
+  firebaseAdmin.auth().verifyIdToken(authToken).then((decodedToken) => {
+    let host = String(decodedToken.email);
+
+    (async () => {
       const userDocUsername = await firedb
         .collection("UserAuth")
         .doc(host);
-        usernameHost = (await userDocUsername.get()).data().username;     
+      usernameHost = (await userDocUsername.get()).data().username;
 
       try {
         const userDocAdd = await firedb
           .collection("UserDataCollection")
           .doc(usernameHost);
-  
+
         if ((await userDocAdd.get()).data().bookmarks.indexOf(usernameAdd) == -1) {
           let arrayUnion = userDocAdd.update({
             bookmarks: admin.firestore.FieldValue.arrayUnion(usernameAdd),
