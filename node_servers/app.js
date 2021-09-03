@@ -340,46 +340,52 @@ app.post("/api/updateAccount", (req, res) => {
 app.post("/api/userBookmark", (req, res, next) => {
   const usernameAdd = req.body.usernameAdd;
   let usernameHost;
-
   let authToken = req.header("Authorization");
   if (authToken == undefined) {
     console.log("Header is not received.");
     return null;
   }
   authToken = authToken.substring(7, authToken.length);
-
+  var returnMessage;
+  var returnStatusCode;
+  var returnResponse=null;
+  var returnType=null;
   firebaseAdmin.auth().verifyIdToken(authToken).then((decodedToken) => {
     let host = String(decodedToken.email);
-
     (async () => {
-      const userDocUsername = await firedb
-        .collection("UserAuth")
-        .doc(host);
+      const userDocUsername = await firedb.collection("UserAuth").doc(host);
       usernameHost = (await userDocUsername.get()).data().username;
-
       try {
-        const userDocAdd = await firedb
-          .collection("UserDataCollection")
-          .doc(usernameHost);
-
+        const userDocAdd = await firedb.collection("UserDataCollection").doc(usernameHost);
         if ((await userDocAdd.get()).data().bookmarks.indexOf(usernameAdd) == -1) {
           let arrayUnion = userDocAdd.update({
             bookmarks: admin.firestore.FieldValue.arrayUnion(usernameAdd),
           });
-          return res.status(200).send("Profile Bookmarked");
+          returnMessage="Profile Bookmarked";
+          returnStatusCode=200;
         } else {
           let arrayUnion = userDocAdd.update({
             bookmarks: admin.firestore.FieldValue.arrayRemove(usernameAdd),
           });
-          return res.status(200).send("Profile Bookmark Removed");
+          returnMessage="Profile Bookmark Removed";
+          returnStatusCode=200;
         }
+        return res.status(returnStatusCode).json({
+          message: returnMessage,
+          response: returnResponse,
+          type: returnType,
+        });
       } catch (error) {
-        console.log(error);
-        return res.status(500).send(error);
+        returnMessage=error;
+        returnStatusCode=500;
+        return res.status(returnStatusCode).json({
+          message: returnMessage,
+          response: returnResponse, 
+          type: returnType,
+        });
       }
     })();
   });
-
 });
 
 app.get("/api/usernameExist", (req, res) => {
