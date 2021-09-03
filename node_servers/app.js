@@ -390,22 +390,34 @@ app.post("/api/userBookmark", (req, res, next) => {
 
 app.get("/api/usernameExist", (req, res) => {
   const requestedUsername = req.body.requestedUsername;
+  var returnMessage;
+  var returnStatusCode;
+  var returnResponse=null;
+  var returnType=null;
   (async () => {
     try {
-      firedb
-        .collection("UserCollection")
-        .doc(requestedUsername)
-        .get()
-        .then((docSnapshot) => {
+      firedb.collection("UserCollection").doc(requestedUsername).get().then((docSnapshot) => {
           if (docSnapshot.exists) {
-            return res.status(409).send("Username Exists");
+            returnStatusCode=409;
+            returnMessage="Username Already Exists";
           } else {
-            return res.status(200).send("Username Available");
+            returnStatusCode=200;
+            returnMessage="Username Available";
           }
+          return res.status(returnStatusCode).json({
+            message: returnMessage,
+            response: returnResponse,
+            type: returnType
+          });
         });
     } catch (error) {
-      console.log(error);
-      return res.status(500).send(error);
+      returnMessage=error;
+      returnStatusCode=500;
+      return res.status(returnStatusCode).json({
+        message: returnMessage,
+        response: returnResponse,
+        type: returnType
+      });
     }
   })();
 });
