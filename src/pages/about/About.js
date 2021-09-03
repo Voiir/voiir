@@ -1,4 +1,5 @@
 import aboutStyles from './About.module.css';
+import logo from 'C:\\Users\\USER\\Desktop\\vn\\voiir\\src\\assets\\logo.png';
 function About() {
     return (
       <div>
@@ -8,9 +9,10 @@ function About() {
           </p>
         </div>
         <div className={aboutStyles.flexParent}>
-          <div className={aboutStyles.flexChild}>
+          <div className={aboutStyles.flexChild} style={{position:"relative",top: '0px'}}>
+          <img src={logo} alt="Voiir logo"/>
           </div>
-          <div className={aboutStyles.flexChild} style={{position: 'fixed', width: '670px', verticalAlign: 'middle', top: '100px'}}>
+          <div className={aboutStyles.flexChild} style={{position: 'fixed', width: '670px', verticalAlign: 'middle', top: '170px'}}>
             <div className={aboutStyles.content}>
               <p>
                 Voiir is a website that will house links to all social media platforms of individuals.
@@ -18,7 +20,7 @@ function About() {
                 links to all their social media accounts. Putting it simply.
               </p>
             </div>
-            <div className={aboutStyles.quote} style={{position: 'relative', top: '80px', textAlign: 'center'}}>
+            <div className={aboutStyles.quote} style={{position: 'relative', top: '60px', textAlign: 'center'}}>
               <p>
                 "A <span style={{color: '#9B72AA'}}>search engine</span> of humans"
               </p>
