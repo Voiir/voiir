@@ -10,9 +10,9 @@ function About() {
         </div>
         <div className={aboutStyles.flexParent}>
           <div className={aboutStyles.flexChild} style={{position:"relative",top: '0px'}}>
-          <img className={aboutStyles.logo} src={logo} alt="Voiir logo"/>
+            <img className={aboutStyles.logo} src={logo} alt="Voiir logo"/>
           </div>
-          <div className={aboutStyles.flexChild} style={{position: 'fixed', width: '670px', verticalAlign: 'middle', top: '170px'}}>
+          <div className={aboutStyles.flexChild} style={{position: 'fixed', width: '520px', verticalAlign: 'middle', top: '180px'}}>
             <div className={aboutStyles.content}>
               <p>
                 Voiir is a website that will house links to all social media platforms of individuals.

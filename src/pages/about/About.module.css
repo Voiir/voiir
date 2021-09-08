@@ -1,5 +1,5 @@
 body{
-    padding-top: 90px;
+    padding-top: 120px;
 }
 
 .heading{
@@ -10,7 +10,8 @@ body{
 
 .flexParent{
     /* border: 1px solid black; */
-    width: 1000px;
+    width: 755px;
+    /* left: 20px; */
     margin-left: auto;
     margin-right: auto;
     /* padding-top: 100px; */
@@ -18,11 +19,11 @@ body{
 
 .flexChild{
     display: inline-block;
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
     /* border: 1px solid green; */
     margin: 0px;
-    padding-top: 80px;
+    padding-top: 20px;
 }
 
 .content{
@@ -53,7 +54,9 @@ body{
 }
 
 .logo{
-    width: 250px;
-    height: 250px;
+    position: relative;
+    top: 0px;
+    width: 200px;
+    height: 200px;
     box-shadow: 4px 4px 4px 0px rgba(0,0,0,0.1);
 }
