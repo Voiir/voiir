@@ -1,5 +1,5 @@
 import aboutStyles from './About.module.css';
-import logo from 'C:\\Users\\USER\\Desktop\\vn\\voiir\\src\\assets\\logo.png';
+import logo from '../../assets/logo.png';
 function About() {
     return (
       <div>
@@ -10,7 +10,7 @@ function About() {
         </div>
         <div className={aboutStyles.flexParent}>
           <div className={aboutStyles.flexChild} style={{position:"relative",top: '0px'}}>
-          <img src={logo} alt="Voiir logo"/>
+          <img className={aboutStyles.logo} src={logo} alt="Voiir logo"/>
           </div>
           <div className={aboutStyles.flexChild} style={{position: 'fixed', width: '670px', verticalAlign: 'middle', top: '170px'}}>
             <div className={aboutStyles.content}>
