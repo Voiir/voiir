@@ -37,11 +37,11 @@ npm run test
 * Github: [@void-memories](https://github.com/void-memories)
 * LinkedIn: [@voidmemories](https://linkedin.com/in/voidmemories)
 
-👤 **Naman Anand **
+👤 **Ashutosh Chauhan **
 
-* Website: naman.website
-* Github: [@void-memories](https://github.com/void-memories)
-* LinkedIn: [@voidmemories](https://linkedin.com/in/voidmemories)
+* Website: 
+* Github: [@ash1526](https://github.com/void-memories)
+* LinkedIn: [@ash1526](https://www.linkedin.com/in/ashutosh-chauhan-5540331b5/)
 
 👤 **Naman Anand **
 
