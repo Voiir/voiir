@@ -81,7 +81,7 @@ class App extends Component {
       {this.state.isLoading && <Loader className="Loader"></Loader>}
       {this.state.isLoginDialog && !user && <Login state={this.state} googleLogin={() => dual(this.setState)} user={user} setLoginDialog={this.setState}></Login>}
       {this.state.isLoginDialog && user && !this.state.doesUserExists && <Onboard state={this.state} user={user} setLoginDialog={this.setState}></Onboard> }
-      <About></About>
+      {/* <About></About> */}
     </div>
     );
   }
