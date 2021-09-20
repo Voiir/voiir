@@ -1,4 +1,4 @@
-import ResultStyles from './Result.module.css';
+import ResultStyles from './result.module.css';
 
 function Card(props){
     return (

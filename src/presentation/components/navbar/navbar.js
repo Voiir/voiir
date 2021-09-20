@@ -1,4 +1,4 @@
-import navbarStyles from './Navbar.module.css';
+import navbarStyles from './navbar.module.css';
 function Navbar(props){
   function toggle(){
     props.setLoginDialog({isLoginDialog: !props.state.isLoginDialog});

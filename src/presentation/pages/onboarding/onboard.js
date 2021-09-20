@@ -1,5 +1,5 @@
-import onboardStyles from './Onboard.module.css'
-import art from '../../assets/art.png';
+import onboardStyles from './onboard.module.css'
+import art from '../../../assets/art.png';
 import {useRef} from 'react';
 import {fetch} from 'whatwg-fetch';
 

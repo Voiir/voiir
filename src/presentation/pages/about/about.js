@@ -1,5 +1,5 @@
-import aboutStyles from './About.module.css';
-import logo from '../../assets/logo.png';
+import aboutStyles from './about.module.css';
+import logo from '../../../assets/logo.png';
 function About() {
     return (
       <div>

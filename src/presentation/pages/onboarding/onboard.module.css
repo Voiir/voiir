@@ -5,6 +5,7 @@
     transform: translate(-50%,-50%); 
   width: 850px;
   font-family: 'poppins';
+  z-index: 5;
 }
 .cross{
   height: 20px;
@@ -21,6 +22,7 @@
   position: fixed;
   width: 100%;
   height: 100%;
+  z-index: 2;
 }
 .art{
     height: 500px;

@@ -1,5 +1,5 @@
-import homepageStyles from './Homepage.module.css';
-import searchIcon from '../../assets/search.svg';
+import homepageStyles from './homepage.module.css';
+import searchIcon from '../../../assets/search.svg';
 import {useState} from 'react';
 
 function Homepage(props){

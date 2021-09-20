@@ -1,6 +1,6 @@
-import Card from './Card';
-import ResultStyles from './Result.module.css';
-import searchIcon from '../../assets/search.svg';
+import Card from './card';
+import ResultStyles from './result.module.css';
+import searchIcon from '../../../assets/search.svg';
 
 function Result(props){
 
