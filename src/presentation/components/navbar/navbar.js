@@ -1,21 +1,17 @@
+import { HOME_PAGE_ROUTE, LOGIN_PAGE_ROUTE } from '../../routes/route-paths';
 import navbarStyles from './navbar.module.css';
-function Navbar(props){
-  function toggle(){
-    props.setLoginDialog({isLoginDialog: !props.state.isLoginDialog});
-
-    // console.log('fncalled');
-  }
+import {Link} from 'react-router-dom';
+function Navbar(){
+  
   return(
     <div className={navbarStyles.navbar}>
     <p className={navbarStyles.logo}>
-      <a href="" onclick="location.reload()">
+      <Link to={HOME_PAGE_ROUTE}>
         vo<span style={{color: '#9A3FCB'}}>ii</span>r
-      </a>
+      </Link>
     </p>
-    {props.user && <a className={navbarStyles.aboutLegal} href="#" >{props.user.displayName.split(' ')[0]}</a>}
-    {!props.user && <a className={navbarStyles.aboutLegal} href="#" onClick={toggle}>Login</a>}
-    {props.user && <a className={navbarStyles.termsLegal} onClick={props.signOut} href="#">Logout</a>}
-    {!props.user && <a className={navbarStyles.termsLegal} onClick={props.signOut} href="#">Signup</a>}
+    <Link className={navbarStyles.aboutLegal} to={LOGIN_PAGE_ROUTE}>Login</Link>
+    <a className={navbarStyles.termsLegal} href="#">Signup</a>
   </div>
 );
   

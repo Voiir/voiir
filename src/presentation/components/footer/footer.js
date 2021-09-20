@@ -1,3 +1,5 @@
+import { ABOUT_PAGE_ROUTE, TERMS_PAGE_ROUTE } from '../../routes/route-paths';
+import { Link } from 'react-router-dom';
 import footerStyles from './footer.module.css';
 
 function Footer(){
@@ -6,8 +8,8 @@ function Footer(){
         <p className={footerStyles.copyright}>
           © 2021 Voiir. All rights reserved.
         </p>
-        <p className={footerStyles.aboutLegal} href="#">About</p>
-        <p className={footerStyles.termsLegal} href="#">Terms</p>
+        <Link className={footerStyles.aboutLegal} to={ABOUT_PAGE_ROUTE}>About</Link>
+        <Link className={footerStyles.termsLegal} to={TERMS_PAGE_ROUTE}>Terms</Link>
       </div>
     );
 }
