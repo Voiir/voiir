@@ -1,7 +1,9 @@
 import { HOME_PAGE_ROUTE, LOGIN_PAGE_ROUTE } from '../../routes/route-paths';
 import navbarStyles from './navbar.module.css';
 import {Link} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 function Navbar(){
+  const isUserLoggedIn=useSelector(state => state.loginReducer.isUserLoggedIn);
   
   return(
     <div className={navbarStyles.navbar}>
@@ -10,8 +12,10 @@ function Navbar(){
         vo<span style={{color: '#9A3FCB'}}>ii</span>r
       </Link>
     </p>
-    <Link className={navbarStyles.aboutLegal} to={LOGIN_PAGE_ROUTE}>Login</Link>
-    <a className={navbarStyles.termsLegal} href="#">Signup</a>
+    {!isUserLoggedIn && <Link className={navbarStyles.aboutLegal} to={LOGIN_PAGE_ROUTE}>Login</Link>}    
+    {isUserLoggedIn && <Link className={navbarStyles.aboutLegal} to={LOGIN_PAGE_ROUTE}>Naman</Link>}
+
+    <a className={navbarStyles.termsLegal} href="#">Switch</a>
   </div>
 );
   

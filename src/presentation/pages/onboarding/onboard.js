@@ -2,9 +2,12 @@ import onboardStyles from './onboard.module.css'
 import art from '../../../assets/art.png';
 import {useRef} from 'react';
 import {fetch} from 'whatwg-fetch';
+import { HOME_PAGE_ROUTE } from '../../routes/route-paths';
+import {Link, useHistory} from 'react-router-dom';
 
 
 function Onboard(props) {
+    const history=useHistory();
     const usernameInput=useRef();
     const cityInput=useRef();
     const stateInput=useRef();
@@ -27,7 +30,7 @@ function Onboard(props) {
           dict['state']=stateInput.current.value;
           dict['profession']=professionInput.current.value;
           
-          toggle();
+        //   history.pushState(HOME_PAGE_ROUTE);
           console.log(dict);
 
           fetch("https://voiir.herokuapp.com/api/setUser/",{
@@ -44,7 +47,7 @@ function Onboard(props) {
         <div className={onboardStyles.onboard}>
             <img src={art} alt="" className={onboardStyles.art} />
             <div className={onboardStyles.popup}>
-            <a className={onboardStyles.cross} onClick={toggle} href="#">x</a>
+            <Link className={onboardStyles.cross} to={HOME_PAGE_ROUTE}>x</Link>
                 <div className={onboardStyles.title}>we're almost there</div>
                 <p className={onboardStyles.subTitle}>We need just a few more things to improve our <span style={{ color: '#9A3FCB' }}>search result.</span></p>
                 

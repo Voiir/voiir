@@ -6,6 +6,22 @@
   width: 850px;
   font-family: 'poppins';
 }
+.gButton{
+  width: 450px;
+  height: 40px;
+  opacity: 1;
+  float:none;
+  position:static;
+  display:block;
+  margin:auto;
+}
+
+.gButton:hover{
+  width: 450px;
+  height: 40px;
+  background-color: khaki;
+}
+
 .backdrop{
   background-color: rgba(0,0,0,0.75);
   position: fixed;
