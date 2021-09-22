@@ -3,6 +3,7 @@ const logger = require("morgan");
 const admin = require("firebase-admin");
 const middlew = require("express-firebase-middleware");
 const app = express();
+const profileURL = require('./profileURL');
 require("dotenv").config();
 
 const { json } = require("express");
@@ -245,32 +246,71 @@ app.get("/api/user/:username", (req, res) => {
 });
 
 app.post("/api/updateAccount", (req, res) => {
-  const platform = req.body.platform;
-  const url = req.body.url;
-  const username = req.body.username;
-
-  (async () => {
-    try {
-      const userDoc = await firedb.collection("UserCollection").doc(username);
-      let arrayUnion = userDoc.update({
-        connectedPlatform: admin.firestore.FieldValue.arrayUnion(platform),
+  var idToken = req.header("Authorization");
+  if (idToken == undefined) {
+    console.log("no header received");
+    return null;
+  }
+ 
+  idToken = idToken.substr(7, idToken.length);
+  firebaseAdmin.auth().verifyIdToken(idToken).then((decodedToken) => {
+    let uid = decodedToken.uid;
+    firebaseAdmin.auth().getUser(uid).then((userRecord) => {
+      var emailId = userRecord.email;
+      firedb.collection("UserAuth").doc(emailId).get().then((docSnapshot) => {
+        var returnStatusCode;
+        var returnResponse = null;
+        var returnMessage;
+        var returnType = null;
+        if (docSnapshot.exists) {
+          var username = docSnapshot.data().username;
+          var platform = req.body.platform;
+          var platformUsername = req.body.platformUsername;
+          var url = profileURL(platform, platformUsername);
+          (async () => {
+            try {
+              const userDoc = firedb.collection("UserCollection").doc(username);
+              let arrayUnion = userDoc.update({
+                connectedPlatform: admin.firestore.FieldValue.arrayUnion(platform),
+              });
+              firedb.collection("UserDataCollection").doc(username).set(
+                {
+                  accounts: { [`${platform}`]: url },
+                },
+                { merge: true }
+              )
+                .then(() => {
+                  returnMessage = "User Profile Updated";
+                  returnStatusCode = 200;
+                  return res.status(returnStatusCode).json({
+                    message: returnMessage,
+                    response: returnResponse,
+                    type: returnType,
+                  });
+                });
+            } catch (error) {
+              returnMessage = error;
+              returnStatusCode = 500;
+              return res.status(returnStatusCode).json({
+                message: returnMessage,
+                response: returnResponse,
+                type: returnType,
+              });
+            }
+          })();
+        }
+        else {
+          returnMessage = "User Not found";
+          returnStatusCode = 404;
+          return res.status(returnStatusCode).json({
+            message: returnMessage,
+            response: returnResponse,
+            type: returnType,
+          });
+        }
       });
-
-      await firedb
-        .collection("UserDataCollection")
-        .doc(username)
-        .set(
-          {
-            accounts: { [`${platform}`]: url },
-          },
-          { merge: true }
-        );
-      return res.status(200).send("User Updated");
-    } catch (error) {
-      console.log(error);
-      return res.status(500).send(error);
-    }
-  })();
+    });
+  });
 });
 
 app.post("/api/userBookmark", (req, res) => {
