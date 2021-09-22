@@ -150,6 +150,10 @@ app.post("/api/userSearch", (req, res) => {
   const name = req.body.name;
 
   (async () => {
+    var returnStatusCode;
+    var returnResponse;
+    var returnMessage;
+    var returnType = "array";
     try {
       let usersRef = await firedb.collection("UserCollection");
       let response = [];
@@ -161,17 +165,35 @@ app.post("/api/userSearch", (req, res) => {
           let nameOfUser = doc.data().name.toLowerCase();
           let result = nameOfUser.startsWith(name.toLowerCase());
           if (result) {
-            console.log(nameOfUser);
             const selectedUser = doc.data();
             response.push(selectedUser);
           }
         }
-        return response;
+        if (response.length >= 1) {
+          returnMessage = "User's found";
+          returnStatusCode = 200;
+        }
+        else {
+          returnMessage = "No User's found";
+          returnStatusCode = 404;
+        }
+        return res.status(returnStatusCode).json({
+          message: returnMessage,
+          response: response,
+          type: returnType,
+        })
       });
-      return res.status(200).send(response);
+
     } catch (error) {
       console.log(error);
-      return res.status(500).send(error);
+      returnStatusCode = 500;
+      returnMessage = error;
+      returnResponse = NULL;
+      return res.status(returnStatusCode).json({
+        message: returnMessage,
+        response: response,
+        type: returnType,
+      })
     }
   })();
 });
