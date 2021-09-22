@@ -251,7 +251,7 @@ app.post("/api/updateAccount", (req, res) => {
     console.log("no header received");
     return null;
   }
- 
+
   idToken = idToken.substr(7, idToken.length);
   firebaseAdmin.auth().verifyIdToken(idToken).then((decodedToken) => {
     let uid = decodedToken.uid;
@@ -324,8 +324,8 @@ app.post("/api/userBookmark", (req, res) => {
   authToken = authToken.substring(7, authToken.length);
   var returnMessage;
   var returnStatusCode;
-  var returnResponse=null;
-  var returnType=null;
+  var returnResponse = null;
+  var returnType = null;
   firebaseAdmin.auth().verifyIdToken(authToken).then((decodedToken) => {
     let host = String(decodedToken.email);
     (async () => {
@@ -337,14 +337,14 @@ app.post("/api/userBookmark", (req, res) => {
           let arrayUnion = userDocAdd.update({
             bookmarks: admin.firestore.FieldValue.arrayUnion(usernameAdd),
           });
-          returnMessage="Profile Bookmarked";
-          returnStatusCode=200;
+          returnMessage = "Profile Bookmarked";
+          returnStatusCode = 200;
         } else {
           let arrayUnion = userDocAdd.update({
             bookmarks: admin.firestore.FieldValue.arrayRemove(usernameAdd),
           });
-          returnMessage="Profile Bookmark Removed";
-          returnStatusCode=200;
+          returnMessage = "Profile Bookmark Removed";
+          returnStatusCode = 200;
         }
         return res.status(returnStatusCode).json({
           message: returnMessage,
@@ -352,11 +352,11 @@ app.post("/api/userBookmark", (req, res) => {
           type: returnType,
         });
       } catch (error) {
-        returnMessage=error;
-        returnStatusCode=500;
+        returnMessage = error;
+        returnStatusCode = 500;
         return res.status(returnStatusCode).json({
           message: returnMessage,
-          response: returnResponse, 
+          response: returnResponse,
           type: returnType,
         });
       }
@@ -366,22 +366,34 @@ app.post("/api/userBookmark", (req, res) => {
 
 app.post("/api/usernameExist", (req, res) => {
   const requestedUsername = req.body.requestedUsername;
+  var returnMessage;
+  var returnStatusCode;
+  var returnResponse = null;
+  var returnType = null;
   (async () => {
     try {
-      firedb
-        .collection("UserCollection")
-        .doc(requestedUsername)
-        .get()
-        .then((docSnapshot) => {
-          if (docSnapshot.exists) {
-            return res.status(409).send("Username Exists");
-          } else {
-            return res.status(200).send("Username Available");
-          }
+      firedb.collection("UserCollection").doc(requestedUsername).get().then((docSnapshot) => {
+        if (docSnapshot.exists) {
+          returnStatusCode = 409;
+          returnMessage = "Username Already Exists";
+        } else {
+          returnStatusCode = 200;
+          returnMessage = "Username Available";
+        }
+        return res.status(returnStatusCode).json({
+          message: returnMessage,
+          response: returnResponse,
+          type: returnType
         });
+      });
     } catch (error) {
-      console.log(error);
-      return res.status(500).send(error);
+      returnMessage = error;
+      returnStatusCode = 500;
+      return res.status(returnStatusCode).json({
+        message: returnMessage,
+        response: returnResponse,
+        type: returnType
+      });
     }
   })();
 });
