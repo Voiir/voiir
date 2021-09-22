@@ -1,6 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const admin = require("firebase-admin");
+const middlew = require("express-firebase-middleware");
 const app = express();
 require("dotenv").config();
 
@@ -42,6 +43,8 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+
+app.use("/api/userExists", middlew.auth);
 
 app.get("/", (req, res) => {
   res.send("Server is Up!!!!");
