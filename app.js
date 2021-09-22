@@ -99,23 +99,51 @@ app.post("/api/setUser", (req, res) => {
 });
 
 app.post("/api/userExists", (req, res) => {
-  const emailId = req.body.emailId;
+  let authToken = req.header("Authorization");
+  if (authToken == undefined) {
+    console.log("Header is not received.");
+    return null;
+  }
+  authToken = authToken.substr(7, authToken.length);
 
-  (async () => {
-    try {
-      let usersRef = await firedb.collection("UserAuth").doc(emailId);
-      usersRef.get().then((docSnapshot) => {
-        if (docSnapshot.exists) {
-          return res.status(403).send(true);
-        } else {
-          return res.status(404).send(false);
-        }
-      });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).send(error);
-    }
-  })();
+  firebaseAdmin.auth().verifyIdToken(authToken).then((decodedToken) => {
+    var returnStatusCode;
+    var returnResponse;
+    var returnMessage;
+    var returnType = "bool";
+    const emailId = String(decodedToken.email);
+    (async () => {
+      try {
+        let usersRef = await firedb.collection("UserAuth").doc(emailId);
+        usersRef.get().then((docSnapshot) => {
+          if (docSnapshot.exists) {
+            returnStatusCode = 403;
+            returnMessage = "User Already Exists";
+            returnResponse = true;
+          } else {
+            returnStatusCode = 402;
+            returnMessage = "User Does not Exists";
+            returnResponse = false;
+          }
+          return res.status(returnStatusCode).json({
+            message: returnMessage,
+            response: returnResponse,
+            type: returnType,
+          });
+        });
+      } catch (error) {
+        console.log(error);
+        returnStatusCode = 500;
+        returnMessage = error;
+        returnResponse = NULL;
+        return res.status(returnStatusCode).json({
+          message: returnMessage,
+          response: returnResponse,
+          type: returnType,
+        });
+      }
+    })();
+  });
 });
 
 app.post("/api/userSearch", (req, res) => {
