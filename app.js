@@ -201,6 +201,10 @@ app.post("/api/userSearch", (req, res) => {
 app.get("/api/user/:username", (req, res) => {
   const username = req.params.username;
   (async () => {
+    var returnStatusCode;
+    var returnResponse;
+    var returnMessage;
+    var returnType = "object";
     try {
       const userRef = await firedb.collection("UserCollection").doc(username);
       userRef.get().then(async (docSnapshot) => {
@@ -213,15 +217,29 @@ app.get("/api/user/:username", (req, res) => {
             userCollection: docSnapshot.data(),
             userData: userData.data(),
           };
-          return res.status(200).send(response);
+          returnMessage = "User found";
+          returnStatusCode = 200;
+          returnResponse = response;
         } else {
-          console.log("User Not found");
-          return res.status(404).send("User Not Found");
+          returnMessage = "No User found";
+          returnStatusCode = 404;
+          returnResponse = null;
         }
+        return res.status(returnStatusCode).json({
+          message: returnMessage,
+          response: returnResponse,
+          type: returnType,
+        });
       });
     } catch (error) {
       console.log(error);
-      return res.status(500).send(error);
+      returnMessage = error;
+      returnStatusCode = 500;
+      return res.status(returnStatusCode).json({
+        message: returnMessage,
+        response: null,
+        type: returnType,
+      });
     }
   })();
 });
