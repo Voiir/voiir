@@ -48,6 +48,7 @@ app.use(express.json());
 app.use("/api/userExists", middlew.auth);
 app.use("/api/setUser", middlew.auth);
 app.use("/api/userSearch", middlew.auth);
+app.use("/api/user/:username", middlew.auth);
 
 app.get("/", (req, res) => {
   res.send("Server is Up!!!!");
