@@ -46,56 +46,65 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.use("/api/userExists", middlew.auth);
+app.use("/api/setUser", middlew.auth);
 
 app.get("/", (req, res) => {
   res.send("Server is Up!!!!");
 });
 
 app.post("/api/setUser", (req, res) => {
-  const emailId = req.body.emailId;
-  const username = req.body.username;
-  const name = req.body.name;
-  const dpUrl = req.body.dpUrl;
-  const city = req.body.city;
-  const state = req.body.state;
-  const profession = req.body.profession;
+  var idToken = req.header("Authorization");
+  if (idToken == undefined) {
+    console.log("no header received");
+    return null;
+  }
 
-  let usersRef = firedb.collection("UserAuth").doc(emailId);
-  usersRef.get().then((docSnapshot) => {
-    if (!docSnapshot.exists) {
-      (async () => {
-        try {
-          await firedb.collection("UserAuth").doc(emailId).create({
-            createdAt: new Date(),
-            username: username,
-          });
-          await firedb
-            .collection("UserCollection")
-            .doc(username)
-            .create({
-              name: name,
-              dpUrl: dpUrl,
-              city: city,
-              state: state,
-              profession: profession,
-              connectedPlatform: ["gmail"],
-            });
-          await firedb
-            .collection("UserDataCollection")
-            .doc(username)
-            .create({
-              accounts: { gmail: emailId },
-              bookmarks: [],
-            });
-          return res.status(201).send("User Created");
-        } catch (error) {
-          console.log(error);
-          return res.status(500).send();
+  idToken = idToken.substr(7, idToken.length);
+
+  firebaseAdmin.auth().verifyIdToken(idToken).then((decodedToken) => {
+    let uid = decodedToken.uid;
+
+    firebaseAdmin.auth().getUser(uid).then((userRecord) => {
+      var name = userRecord.displayName;
+      var dpUrl = userRecord.photoURL;
+      var emailId = userRecord.email;
+      var username = req.body.username;
+      var city = req.body.city;
+      var state = req.body.state;
+      var profession = req.body.profession;
+
+      let usersRef = firedb.collection("UserAuth").doc(emailId);
+      usersRef.get().then((docSnapshot) => {
+        if (!docSnapshot.exists) {
+          (async () => {
+            try {
+              await firedb.collection("UserAuth").doc(emailId).create({
+                createdAt: new Date(),
+                username: username,
+              });
+              await firedb.collection("UserCollection").doc(username).create({
+                name: name,
+                dpUrl: dpUrl,
+                city: city,
+                state: state,
+                profession: profession,
+                connectedPlatform: ["gmail"],
+              });
+              await firedb.collection("UserDataCollection").doc(username).create({
+                accounts: { gmail: emailId },
+                bookmarks: [],
+              });
+              return res.status(201).send("User Created");
+            } catch (error) {
+              console.log(error);
+              return res.status(500).send();
+            }
+          })();
+        } else {
+          return res.status(409).send();
         }
-      })();
-    } else {
-      return res.status(409).send();
-    }
+      });
+    });
   });
 });
 
