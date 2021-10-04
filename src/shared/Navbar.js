@@ -13,9 +13,9 @@ function Navbar(props){
       </a>
     </p>
     {props.user && <a className={navbarStyles.aboutLegal} href="#" >{props.user.displayName.split(' ')[0]}</a>}
-    {!props.user && <a className={navbarStyles.aboutLegal} href="#" onClick={toggle}>Login</a>}
-    {props.user && <a className={navbarStyles.termsLegal} onClick={props.signOut} href="#">Logout</a>}
-    {!props.user && <a className={navbarStyles.termsLegal} onClick={props.signOut} href="#">Signup</a>}
+    {!props.user && <a className={navbarStyles.aboutLegal} href="#">32:44:21</a>}
+    {props.user && <a className={navbarStyles.termsLegal}  href="#">Logout</a>}
+    {!props.user && <a className={navbarStyles.termsLegal} href="#">Left</a>}
   </div>
 );
   
