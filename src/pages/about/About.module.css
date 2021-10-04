@@ -1,11 +1,13 @@
 .heading{
     text-align: center;
-    /* position: absolute; */
+    position: relative;
     top: 180px;
 }
 
 .flexParent{
     /* border: 1px solid black; */
+    position: relative;
+    padding-top: 100px;
     width: 1000px;
     margin-left: auto;
     margin-right: auto;
@@ -37,8 +39,8 @@
 
 .names{
     text-align: center;
-    position: relative;
-    top: 60px;
+    position: fixed;
+    bottom: 180px;
     font-family: Poppins;
     font-style: normal;
     font-weight: normal;

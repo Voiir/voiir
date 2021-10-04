@@ -8,7 +8,8 @@ function About() {
           </p>
         </div>
         <div className={aboutStyles.flexParent}>
-          <div className={aboutStyles.flexChild}>
+          <div className={aboutStyles.flexChild}>  {/*For placing image*/}
+            <img src="D:\\code\\voiir\\src\\assets\\voiir-aboutPage-logo.png" alt="Voiir logo" />
           </div>
           <div className={aboutStyles.flexChild} style={{position: 'fixed', width: '670px', verticalAlign: 'middle', top: '100px'}}>
             <div className={aboutStyles.content}>
