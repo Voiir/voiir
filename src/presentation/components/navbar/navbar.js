@@ -4,6 +4,8 @@ import {Link} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 function Navbar(){
   const isUserLoggedIn=useSelector(state => state.loginReducer.isUserLoggedIn);
+  const name=useSelector(state => state.userReducer.name);
+
   
   return(
     <div className={navbarStyles.navbar}>
@@ -13,7 +15,7 @@ function Navbar(){
       </Link>
     </p>
     {!isUserLoggedIn && <Link className={navbarStyles.aboutLegal} to={LOGIN_PAGE_ROUTE}>Login</Link>}    
-    {isUserLoggedIn && <Link className={navbarStyles.aboutLegal} to={LOGIN_PAGE_ROUTE}>Naman</Link>}
+    {isUserLoggedIn && <Link className={navbarStyles.aboutLegal}>{name.split(' ')[0]}</Link>}
 
     <a className={navbarStyles.termsLegal} href="#">Switch</a>
   </div>

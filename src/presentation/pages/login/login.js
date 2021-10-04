@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 import UserModel from '../../../data/models/userModel'
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { USER_EXISTS } from '../../../data/data-source/remote/apiList';
-import { postRequest } from '../../../data/data-source/remote/apiCall';
+import { getRequest,postRequest } from '../../../data/data-source/remote/apiCall';
 
 
 
@@ -24,7 +24,7 @@ function Login() {
     console.log(user);
     dispatch(loginActions.userLoggedIn());
     dispatch(userActions.initUser(user));
-    postRequest(USER_EXISTS,{emailId:user.profileObj.email},user.tokenObj.access_token);
+    getRequest(USER_EXISTS,{emailId:user.profileObj.email},user.tokenObj.access_token);
     // if (!doesUserExist)
     //   history.push(ONBOARDING_PAGE_ROUTE);
     // else
