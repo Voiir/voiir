@@ -45,11 +45,11 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
-app.use("/api/userExists", middlew.auth);
-app.use("/api/setUser", middlew.auth);
-app.use("/api/userSearch", middlew.auth);
-app.use("/api/user/:username", middlew.auth);
-app.use("/api/updateAccount", middlew.auth);
+// app.use("/api/userExists", middlew.auth);
+// app.use("/api/setUser", middlew.auth);
+// app.use("/api/userSearch", middlew.auth);
+// app.use("/api/user/:username", middlew.auth);
+// app.use("/api/updateAccount", middlew.auth);
 
 app.get("/", (req, res) => {
   res.send("Server is Up!!!!");
@@ -171,7 +171,7 @@ app.post("/api/userSearch", (req, res) => {
       let usersRef = await firedb.collection("UserCollection");
       let response = [];
 
-      await usersRef.get().then((querySnapshot) => {
+      await usersRef.get().then(async(querySnapshot) => {
         let docs = querySnapshot.docs;
 
         for (let doc of docs) {
@@ -179,6 +179,9 @@ app.post("/api/userSearch", (req, res) => {
           let result = nameOfUser.startsWith(name.toLowerCase());
           if (result) {
             const selectedUser = doc.data();
+            const userData = await firedb.collection("UserDataCollection").doc(doc.id).get();
+            selectedUser["accounts"]=userData.data().accounts;
+            selectedUser["bookmarks"]=userData.data().bookmarks;
             response.push(selectedUser);
           }
         }
