@@ -3,7 +3,7 @@ const logger = require("morgan");
 const admin = require("firebase-admin");
 const middlew = require("express-firebase-middleware");
 const app = express();
-const profileURL = require('./profileURL');
+const profileURL = require("./profileURL");
 require("dotenv").config();
 
 const { json } = require("express");
@@ -13,7 +13,7 @@ var firebaseAdmin = admin.initializeApp({
     type: process.env.type,
     project_id: process.env.project_id,
     private_key_id: process.env.project_key_id,
-    private_key: process.env.private_key.replace(/\\n/g, '\n'),
+    private_key: process.env.private_key.replace(/\\n/g, "\n"),
     client_email: process.env.client_email,
     client_id: process.env.client_id,
     auth_uri: process.env.auth_uri,
@@ -64,92 +64,102 @@ app.post("/api/setUser", (req, res) => {
 
   idToken = idToken.substr(7, idToken.length);
 
-  firebaseAdmin.auth().verifyIdToken(idToken).then((decodedToken) => {
-    let uid = decodedToken.uid;
+  firebaseAdmin
+    .auth()
+    .verifyIdToken(idToken)
+    .then((decodedToken) => {
+      let uid = decodedToken.uid;
 
-    firebaseAdmin.auth().getUser(uid).then((userRecord) => {
-      var name = userRecord.displayName;
-      var dpUrl = userRecord.photoURL;
-      var emailId = userRecord.email;
-      var username = req.body.username;
-      var city = req.body.city;
-      var state = req.body.state;
-      var profession = req.body.profession;
+      firebaseAdmin
+        .auth()
+        .getUser(uid)
+        .then((userRecord) => {
+          var name = userRecord.displayName;
+          var dpUrl = userRecord.photoURL;
+          var emailId = userRecord.email;
+          var username = req.body.username;
+          var city = req.body.city;
+          var state = req.body.state;
+          var profession = req.body.profession;
 
-      let usersRef = firedb.collection("UserAuth").doc(emailId);
-      usersRef.get().then((docSnapshot) => {
-        if (!docSnapshot.exists) {
-          (async () => {
-            try {
-              await firedb.collection("UserAuth").doc(emailId).create({
-                createdAt: new Date(),
-                username: username,
-              });
-              await firedb.collection("UserCollection").doc(username).create({
-                name: name,
-                dpUrl: dpUrl,
-                city: city,
-                state: state,
-                profession: profession,
-                connectedPlatform: ["gmail"],
-              });
-              await firedb.collection("UserDataCollection").doc(username).create({
-                accounts: { gmail: emailId },
-                bookmarks: [],
-              });
-              return res.status(201).send("User Created");
-            } catch (error) {
-              console.log(error);
-              return res.status(500).send();
+          let usersRef = firedb.collection("UserAuth").doc(emailId);
+          usersRef.get().then((docSnapshot) => {
+            if (!docSnapshot.exists) {
+              (async () => {
+                try {
+                  await firedb.collection("UserAuth").doc(emailId).create({
+                    createdAt: new Date(),
+                    username: username,
+                  });
+                  await firedb
+                    .collection("UserCollection")
+                    .doc(username)
+                    .create({
+                      name: name,
+                      dpUrl: dpUrl,
+                      city: city,
+                      state: state,
+                      profession: profession,
+                      connectedPlatform: ["gmail"],
+                    });
+                  await firedb
+                    .collection("UserDataCollection")
+                    .doc(username)
+                    .create({
+                      accounts: { gmail: emailId },
+                      bookmarks: [],
+                    });
+                  return res.status(201).send("User Created");
+                } catch (error) {
+                  console.log(error);
+                  return res.status(500).send();
+                }
+              })();
+            } else {
+              return res.status(409).send();
             }
-          })();
-        } else {
-          return res.status(409).send();
-        }
-      });
+          });
+        });
     });
-  });
 });
 
 app.post("/api/userExists", (req, res) => {
-  
-    var returnStatusCode;
-    var returnResponse;
-    var returnMessage;
-    var returnType = "bool";
-    const emailId = req.body.emailId;
-    (async () => {
-      try {
-        let usersRef = await firedb.collection("UserAuth").doc(emailId);
-        usersRef.get().then((docSnapshot) => {
-          if (docSnapshot.exists) {
-            returnStatusCode = 403;
-            returnMessage = "User Already Exists";
-            returnResponse = true;
-          } else {
-            returnStatusCode = 402;
-            returnMessage = "User Does not Exists";
-            returnResponse = false;
-          }
-          return res.status(returnStatusCode).json({
-            message: returnMessage,
-            response: returnResponse,
-            type: returnType,
-          });
-        });
-      } catch (error) {
-        console.log(error);
-        returnStatusCode = 500;
-        returnMessage = error;
-        returnResponse = NULL;
+  var returnStatusCode;
+  var returnResponse;
+  var returnMessage;
+  var returnType = "bool";
+  const emailId = req.body.emailId;
+  (async () => {
+    try {
+      let usersRef = await firedb.collection("UserAuth").doc(emailId);
+      usersRef.get().then((docSnapshot) => {
+        if (docSnapshot.exists) {
+          returnStatusCode = 200;
+          returnMessage = "User Already Exists";
+          returnResponse = true;
+        } else {
+          returnStatusCode = 402;
+          returnMessage = "User Does not Exists";
+          returnResponse = false;
+        }
         return res.status(returnStatusCode).json({
           message: returnMessage,
           response: returnResponse,
           type: returnType,
         });
-      }
-    })();
-  
+      });
+    } catch (error) {
+      console.log(error);
+      returnStatusCode = 500;
+      returnMessage = error;
+      returnResponse = NULL;
+      return res.status(returnStatusCode).json({
+        message: returnMessage,
+        response: returnResponse,
+        type: returnType,
+      });
+    }
+  })();
 });
 
 app.post("/api/userSearch", (req, res) => {
@@ -164,7 +174,7 @@ app.post("/api/userSearch", (req, res) => {
       let usersRef = await firedb.collection("UserCollection");
       let response = [];
 
-      await usersRef.get().then(async(querySnapshot) => {
+      await usersRef.get().then(async (querySnapshot) => {
         let docs = querySnapshot.docs;
 
         for (let doc of docs) {
@@ -172,17 +182,19 @@ app.post("/api/userSearch", (req, res) => {
           let result = nameOfUser.startsWith(name.toLowerCase());
           if (result) {
             const selectedUser = doc.data();
-            const userData = await firedb.collection("UserDataCollection").doc(doc.id).get();
-            selectedUser["accounts"]=userData.data().accounts;
-            selectedUser["bookmarks"]=userData.data().bookmarks;
+            const userData = await firedb
+              .collection("UserDataCollection")
+              .doc(doc.id)
+              .get();
+            selectedUser["accounts"] = userData.data().accounts;
+            selectedUser["bookmarks"] = userData.data().bookmarks;
             response.push(selectedUser);
           }
         }
         if (response.length >= 1) {
           returnMessage = "User's found";
           returnStatusCode = 200;
-        }
-        else {
+        } else {
           returnMessage = "No User's found";
           returnStatusCode = 404;
         }
@@ -190,9 +202,8 @@ app.post("/api/userSearch", (req, res) => {
           message: returnMessage,
           response: response,
           type: returnType,
-        })
+        });
       });
-
     } catch (error) {
       console.log(error);
       returnStatusCode = 500;
@@ -202,7 +213,7 @@ app.post("/api/userSearch", (req, res) => {
         message: returnMessage,
         response: response,
         type: returnType,
-      })
+      });
     }
   })();
 });
@@ -254,62 +265,66 @@ app.get("/api/user/:username", (req, res) => {
 });
 
 app.post("/api/updateAccount", (req, res) => {
-
-
-      var emailId = req.body.emailId;
-      firedb.collection("UserAuth").doc(emailId).get().then((docSnapshot) => {
-        var returnStatusCode;
-        var returnResponse = null;
-        var returnMessage;
-        var returnType = null;
-        if (docSnapshot.exists) {
-          var username = docSnapshot.data().username;
-          var platform = req.body.platform;
-          var platformUsername = req.body.platformUsername;
-          var url = profileURL(platform, platformUsername);
-          (async () => {
-            try {
-              const userDoc = firedb.collection("UserCollection").doc(username);
-              let arrayUnion = userDoc.update({
-                connectedPlatform: admin.firestore.FieldValue.arrayUnion(platform),
-              });
-              firedb.collection("UserDataCollection").doc(username).set(
+  var emailId = req.body.emailId;
+  firedb
+    .collection("UserAuth")
+    .doc(emailId)
+    .get()
+    .then((docSnapshot) => {
+      var returnStatusCode;
+      var returnResponse = null;
+      var returnMessage;
+      var returnType = null;
+      if (docSnapshot.exists) {
+        var username = docSnapshot.data().username;
+        var platform = req.body.platform;
+        var platformUsername = req.body.platformUsername;
+        var url = profileURL(platform, platformUsername);
+        (async () => {
+          try {
+            const userDoc = firedb.collection("UserCollection").doc(username);
+            let arrayUnion = userDoc.update({
+              connectedPlatform:
+                admin.firestore.FieldValue.arrayUnion(platform),
+            });
+            firedb
+              .collection("UserDataCollection")
+              .doc(username)
+              .set(
                 {
                   accounts: { [`${platform}`]: url },
                 },
                 { merge: true }
               )
-                .then(() => {
-                  returnMessage = "User Profile Updated";
-                  returnStatusCode = 200;
-                  return res.status(returnStatusCode).json({
-                    message: returnMessage,
-                    response: returnResponse,
-                    type: returnType,
-                  });
+              .then(() => {
+                returnMessage = "User Profile Updated";
+                returnStatusCode = 200;
+                return res.status(returnStatusCode).json({
+                  message: returnMessage,
+                  response: returnResponse,
+                  type: returnType,
                 });
-            } catch (error) {
-              returnMessage = error;
-              returnStatusCode = 500;
-              return res.status(returnStatusCode).json({
-                message: returnMessage,
-                response: returnResponse,
-                type: returnType,
               });
-            }
-          })();
-        }
-        else {
-          returnMessage = "User Not found";
-          returnStatusCode = 404;
-          return res.status(returnStatusCode).json({
-            message: returnMessage,
-            response: returnResponse,
-            type: returnType,
-          });
-        }
-      });
-   
+          } catch (error) {
+            returnMessage = error;
+            returnStatusCode = 500;
+            return res.status(returnStatusCode).json({
+              message: returnMessage,
+              response: returnResponse,
+              type: returnType,
+            });
+          }
+        })();
+      } else {
+        returnMessage = "User Not found";
+        returnStatusCode = 404;
+        return res.status(returnStatusCode).json({
+          message: returnMessage,
+          response: returnResponse,
+          type: returnType,
+        });
+      }
+    });
 });
 
 app.post("/api/userBookmark", (req, res) => {
@@ -325,42 +340,49 @@ app.post("/api/userBookmark", (req, res) => {
   var returnStatusCode;
   var returnResponse = null;
   var returnType = null;
-  firebaseAdmin.auth().verifyIdToken(authToken).then((decodedToken) => {
-    let host = String(decodedToken.email);
-    (async () => {
-      const userDocUsername = await firedb.collection("UserAuth").doc(host);
-      usernameHost = (await userDocUsername.get()).data().username;
-      try {
-        const userDocAdd = await firedb.collection("UserDataCollection").doc(usernameHost);
-        if ((await userDocAdd.get()).data().bookmarks.indexOf(usernameAdd) == -1) {
-          let arrayUnion = userDocAdd.update({
-            bookmarks: admin.firestore.FieldValue.arrayUnion(usernameAdd),
+  firebaseAdmin
+    .auth()
+    .verifyIdToken(authToken)
+    .then((decodedToken) => {
+      let host = String(decodedToken.email);
+      (async () => {
+        const userDocUsername = await firedb.collection("UserAuth").doc(host);
+        usernameHost = (await userDocUsername.get()).data().username;
+        try {
+          const userDocAdd = await firedb
+            .collection("UserDataCollection")
+            .doc(usernameHost);
+          if (
+            (await userDocAdd.get()).data().bookmarks.indexOf(usernameAdd) == -1
+          ) {
+            let arrayUnion = userDocAdd.update({
+              bookmarks: admin.firestore.FieldValue.arrayUnion(usernameAdd),
+            });
+            returnMessage = "Profile Bookmarked";
+            returnStatusCode = 200;
+          } else {
+            let arrayUnion = userDocAdd.update({
+              bookmarks: admin.firestore.FieldValue.arrayRemove(usernameAdd),
+            });
+            returnMessage = "Profile Bookmark Removed";
+            returnStatusCode = 200;
+          }
+          return res.status(returnStatusCode).json({
+            message: returnMessage,
+            response: returnResponse,
+            type: returnType,
           });
-          returnMessage = "Profile Bookmarked";
-          returnStatusCode = 200;
-        } else {
-          let arrayUnion = userDocAdd.update({
-            bookmarks: admin.firestore.FieldValue.arrayRemove(usernameAdd),
+        } catch (error) {
+          returnMessage = error;
+          returnStatusCode = 500;
+          return res.status(returnStatusCode).json({
+            message: returnMessage,
+            response: returnResponse,
+            type: returnType,
           });
-          returnMessage = "Profile Bookmark Removed";
-          returnStatusCode = 200;
         }
-        return res.status(returnStatusCode).json({
-          message: returnMessage,
-          response: returnResponse,
-          type: returnType,
-        });
-      } catch (error) {
-        returnMessage = error;
-        returnStatusCode = 500;
-        return res.status(returnStatusCode).json({
-          message: returnMessage,
-          response: returnResponse,
-          type: returnType,
-        });
-      }
-    })();
-  });
+      })();
+    });
 });
 
 app.post("/api/usernameExist", (req, res) => {
@@ -371,30 +393,50 @@ app.post("/api/usernameExist", (req, res) => {
   var returnType = null;
   (async () => {
     try {
-      firedb.collection("UserCollection").doc(requestedUsername).get().then((docSnapshot) => {
-        if (docSnapshot.exists) {
-          returnStatusCode = 409;
-          returnMessage = "Username Already Exists";
-        } else {
-          returnStatusCode = 200;
-          returnMessage = "Username Available";
-        }
-        return res.status(returnStatusCode).json({
-          message: returnMessage,
-          response: returnResponse,
-          type: returnType
+      firedb
+        .collection("UserCollection")
+        .doc(requestedUsername)
+        .get()
+        .then((docSnapshot) => {
+          if (docSnapshot.exists) {
+            returnStatusCode = 409;
+            returnMessage = "Username Already Exists";
+          } else {
+            returnStatusCode = 200;
+            returnMessage = "Username Available";
+          }
+          return res.status(returnStatusCode).json({
+            message: returnMessage,
+            response: returnResponse,
+            type: returnType,
+          });
         });
-      });
     } catch (error) {
       returnMessage = error;
       returnStatusCode = 500;
       return res.status(returnStatusCode).json({
         message: returnMessage,
         response: returnResponse,
-        type: returnType
+        type: returnType,
       });
     }
   })();
+});
+
+app.post("/api/userDetails", async (req, res) => {
+  try {
+    const emailId = req.body.emailId;
+    const userSnapshot = await firedb.collection("UserAuth").doc(emailId).get();
+    if(!userSnapshot.exists){
+      throw "No such user exist";
+    }
+    const username = userSnapshot.data().username;
+    const userData = await firedb.collection("UserDataCollection").doc(username).get();
+    const accounts = {...userData.data().accounts};
+    return res.json({accounts:accounts});
+  } catch (error) {
+    return res.json({ error: error });
+  }
 });
 
 module.exports = app;
