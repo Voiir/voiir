@@ -112,19 +112,12 @@ app.post("/api/setUser", (req, res) => {
 });
 
 app.post("/api/userExists", (req, res) => {
-  let authToken = req.header("Authorization");
-  if (authToken == undefined) {
-    console.log("Header is not received.");
-    return null;
-  }
-  authToken = authToken.substr(7, authToken.length);
-
-  firebaseAdmin.auth().verifyIdToken(authToken).then((decodedToken) => {
+  
     var returnStatusCode;
     var returnResponse;
     var returnMessage;
     var returnType = "bool";
-    const emailId = String(decodedToken.email);
+    const emailId = req.body.emailId;
     (async () => {
       try {
         let usersRef = await firedb.collection("UserAuth").doc(emailId);
@@ -156,7 +149,7 @@ app.post("/api/userExists", (req, res) => {
         });
       }
     })();
-  });
+  
 });
 
 app.post("/api/userSearch", (req, res) => {
