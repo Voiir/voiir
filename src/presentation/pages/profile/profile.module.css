@@ -1,0 +1,49 @@
+.parentDiv {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: grid;
+  grid-template-columns: 100px 2fr;
+  grid-template-rows: 1fr 5fr;
+}
+
+.dp {
+  height: 100px;
+  width: 100px;
+  justify-self: end;
+}
+
+.nAdd {
+  margin-left: 16px;
+  justify-self: start;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 54px;
+}
+
+.platform {
+  justify-self: start;
+  font-weight: 600;
+  text-transform: uppercase;
+
+  margin-top: 32px;
+}
+
+.linkText {
+  justify-self: start;
+  margin-left: 16px;
+}
+
+.platforms {
+  justify-self: start;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.platformResult {
+  margin-top: 32px;
+}
