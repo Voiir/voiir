@@ -254,17 +254,9 @@ app.get("/api/user/:username", (req, res) => {
 });
 
 app.post("/api/updateAccount", (req, res) => {
-  var idToken = req.header("Authorization");
-  if (idToken == undefined) {
-    console.log("no header received");
-    return null;
-  }
 
-  idToken = idToken.substr(7, idToken.length);
-  firebaseAdmin.auth().verifyIdToken(idToken).then((decodedToken) => {
-    let uid = decodedToken.uid;
-    firebaseAdmin.auth().getUser(uid).then((userRecord) => {
-      var emailId = userRecord.email;
+
+      var emailId = req.body.emailId;
       firedb.collection("UserAuth").doc(emailId).get().then((docSnapshot) => {
         var returnStatusCode;
         var returnResponse = null;
@@ -317,8 +309,7 @@ app.post("/api/updateAccount", (req, res) => {
           });
         }
       });
-    });
-  });
+   
 });
 
 app.post("/api/userBookmark", (req, res) => {
