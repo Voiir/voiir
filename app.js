@@ -280,6 +280,8 @@ app.post("/api/updateAccount", (req, res) => {
         var platform = req.body.platform;
         var platformUsername = req.body.platformUsername;
         var url = profileURL(platform, platformUsername);
+        if(url==undefined)
+        url=platformUsername;
         (async () => {
           try {
             const userDoc = firedb.collection("UserCollection").doc(username);
