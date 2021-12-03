@@ -59,8 +59,8 @@ app.post("/api/setUser", (req, res) => {
  
 
  
-          var name = req.body.displayName;
-          var dpUrl = req.body.photoURL;
+          var name = req.body.name;
+          var dpUrl = req.body.dpUrl;
           var emailId = req.body.emailId;
           var username = req.body.username;
           var city = req.body.city;
