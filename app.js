@@ -191,14 +191,14 @@ app.post("/api/userSearch", (req, res) => {
             response.push(selectedUser);
           }
         }
-        if (response.length >= 1) {
-          returnMessage = "User's found";
-          returnStatusCode = 200;
-        } else {
-          returnMessage = "No User's found";
-          returnStatusCode = 404;
-        }
-        return res.status(returnStatusCode).json({
+        // if (response.length >= 1) {
+        //   returnMessage = "User's found";
+        //   returnStatusCode = 200;
+        // } else {
+        //   returnMessage = "No User's found";
+        //   returnStatusCode = 404;
+        // }
+        return res.status(200).json({
           message: returnMessage,
           response: response,
           type: returnType,
