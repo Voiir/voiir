@@ -279,8 +279,8 @@ app.post("/api/updateAccount", (req, res) => {
         var username = docSnapshot.data().username;
         var platform = req.body.platform;
         var platformUsername = req.body.platformUsername;
-        var url = profileURL(platform, platformUsername);
-        if(url==undefined)
+        // var url = profileURL(platform, platformUsername);
+        // if(url==undefined)
         url=platformUsername;
         (async () => {
           try {
