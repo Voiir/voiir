@@ -56,27 +56,12 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/setUser", (req, res) => {
-  var idToken = req.header("Authorization");
-  if (idToken == undefined) {
-    console.log("no header received");
-    return null;
-  }
+ 
 
-  idToken = idToken.substr(7, idToken.length);
-
-  firebaseAdmin
-    .auth()
-    .verifyIdToken(idToken)
-    .then((decodedToken) => {
-      let uid = decodedToken.uid;
-
-      firebaseAdmin
-        .auth()
-        .getUser(uid)
-        .then((userRecord) => {
-          var name = userRecord.displayName;
-          var dpUrl = userRecord.photoURL;
-          var emailId = userRecord.email;
+ 
+          var name = req.body.displayName;
+          var dpUrl = req.body.photoURL;
+          var emailId = req.body.email;
           var username = req.body.username;
           var city = req.body.city;
           var state = req.body.state;
@@ -119,8 +104,7 @@ app.post("/api/setUser", (req, res) => {
               return res.status(409).send();
             }
           });
-        });
-    });
+    
 });
 
 app.post("/api/userExists", (req, res) => {
