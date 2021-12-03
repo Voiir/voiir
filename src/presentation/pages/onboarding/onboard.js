@@ -39,7 +39,7 @@ function Onboard(props) {
     var res = await postRequest('setUser', dict, '');
 
     console.log(res);
-    history.pushState(HOME_PAGE_ROUTE);
+    history.push(HOME_PAGE_ROUTE);
   }
   return (
     <div>
