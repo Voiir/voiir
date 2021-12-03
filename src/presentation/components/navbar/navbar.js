@@ -56,8 +56,12 @@ function Navbar() {
         </Link>
       )}
 
-      <a className={navbarStyles.termsLegal} href="#">
-        Switch
+      <a
+        className={navbarStyles.termsLegal}
+        href="https://github.com/voiir/voiir"
+        target="_blank" rel="noreferrer"
+      >
+        Github
       </a>
       <GoogleLogin
         clientId={clientID}
@@ -73,4 +77,3 @@ function Navbar() {
 }
 
 export default Navbar;
-

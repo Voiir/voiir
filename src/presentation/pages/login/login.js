@@ -22,21 +22,19 @@ function Login() {
   const history = useHistory();
   const clientID = process.env.REACT_APP_clientID;
 
-  function LoginHandler(user) {
+  async function LoginHandler(user) {
     console.log(user);
     dispatch(loginActions.userLoggedIn());
     dispatch(userActions.initUser(user));
     console.log(user.profileObj.email);
-    var res = postRequest(
+    var res = await postRequest(
       USER_EXISTS,
       { emailId: user.profileObj.email },
       user.tokenObj.access_token
     );
-    console.log(res);
-    // if (!doesUserExist)
-    //   history.push(ONBOARDING_PAGE_ROUTE);
-    // else
-    //   history.push(HOME_PAGE_ROUTE);
+    var result = res.data.response;
+    if (result == false) history.push(ONBOARDING_PAGE_ROUTE);
+    else history.push(HOME_PAGE_ROUTE);
   }
 
   function failed(error) {
@@ -89,4 +87,3 @@ function Login() {
 }
 
 export default Login;
-

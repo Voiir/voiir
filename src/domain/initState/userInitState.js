@@ -1,7 +1,9 @@
-export const userInitState={
-    name:'',
-    email:'',
-    access_token:'',
-    imageUrl:'',
-    doesUserExist:false
-}
+export const userInitState = {
+  name: '',
+  email: '',
+  access_token: '',
+  imageUrl: '',
+  doesUserExist: false,
+  isLoading: false,
+};
+

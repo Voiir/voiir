@@ -47,4 +47,5 @@ input {
 .platformLinks {
   padding-left: 16px;
   margin-bottom: 8px;
+  cursor: pointer;
 }

@@ -1,8 +1,9 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { postRequest } from '../../../data/data-source/remote/apiCall';
 import updateStyles from './update.module.css';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { userActions } from '../../../domain/stores/store';
 
 function Update() {
   const isUserLoggedIn = useSelector(
@@ -13,6 +14,7 @@ function Update() {
   const [links, setlinks] = useState({});
   const [change, setchange] = useState(-1);
   var res = '';
+  const dispatch = useDispatch();
 
   async function addLink() {
     const platform = document.getElementById('platformInput').value;
@@ -33,6 +35,7 @@ function Update() {
   }
 
   useEffect(() => {
+    dispatch(userActions.load());
     if (isUserLoggedIn)
       postRequest(
         'userDetails',
@@ -42,6 +45,8 @@ function Update() {
         'access_token'
       ).then((res) => {
         console.log(res.data.accounts);
+        dispatch(userActions.unLoad());
+
         setchange(0);
         setlinks(res.data.accounts);
       });
@@ -55,7 +60,7 @@ function Update() {
         id="platformInput"
       ></input>
       <input
-        placeholder="profile username"
+        placeholder="profile link"
         className={updateStyles.linkBox}
         id="linkInput"
       ></input>
@@ -69,7 +74,9 @@ function Update() {
       </div>
       <div>
         {Object.keys(links).map((link) => (
-          <p className={updateStyles.platformLinks}>{`${links[link]}`}</p>
+          <p className={updateStyles.platformLinks}>
+            <a href={links[link]}>{`${links[link]}`}</a>
+          </p>
         ))}
       </div>
     </div>

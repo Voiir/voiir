@@ -5,10 +5,13 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PROFILE_PAGE_ROUTE } from '../../routes/route-paths';
+import { useDispatch, useSelector } from 'react-redux';
+import { userActions } from '../../../domain/stores/store';
 
 function Result(props) {
   const location = useLocation();
-
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.userReducer.isLoading);
   const queryString = location.state.queryString;
   const [resultData, setResultData] = useState({
     status: 0,
@@ -21,6 +24,7 @@ function Result(props) {
   }, []);
 
   async function getResults(e) {
+    dispatch(userActions.load());
     if (e != null) e.preventDefault();
     var search = document.getElementById('searchBarID').value;
     console.log(search);
@@ -32,6 +36,8 @@ function Result(props) {
       }
     );
     console.log(res.response);
+    dispatch(userActions.unLoad());
+
     setResultData({ status: 0, result: res.data.response });
   }
 
@@ -67,9 +73,11 @@ function Result(props) {
           ></Card>
         ))}
       </div>
+      {!isLoading && resultData.result.length == 0 && (
+        <p className={ResultStyles.verdict}>No results found</p>
+      )}
     </div>
   );
 }
 
 export default Result;
-
