@@ -138,7 +138,7 @@ app.post("/api/userExists", (req, res) => {
           returnMessage = "User Already Exists";
           returnResponse = true;
         } else {
-          returnStatusCode = 402;
+          returnStatusCode = 200;
           returnMessage = "User Does not Exists";
           returnResponse = false;
         }
