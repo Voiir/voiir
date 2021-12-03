@@ -23,7 +23,12 @@ function Profile() {
       </div>
       <div className={profileStyles.platformResult}>
         {Object.keys(links).map((platform) => (
-          <p className={profileStyles.linkText}>{` ${links[platform]}`}</p>
+          <p className={profileStyles.linkText}>
+            <a
+              href={` ${links[platform]}`}
+              target="_blank" rel="noreferrer"
+            >{` ${links[platform]}`}</a>
+          </p>
         ))}
       </div>
     </div>
