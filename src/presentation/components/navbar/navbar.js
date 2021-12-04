@@ -59,19 +59,29 @@ function Navbar() {
       <a
         className={navbarStyles.termsLegal}
         href="https://github.com/voiir/voiir"
-        target="_blank" rel="noreferrer"
+        target="_blank"
+        rel="noreferrer"
       >
         Github
       </a>
-      <GoogleLogin
-        clientId={clientID}
-        icon=""
-        buttonText=""
-        cookiePolicy={'single_host_origin'}
-        isSignedIn={true}
-        onSuccess={LoginHandler}
-        onFailure={error}
-      />
+      <div className={navbarStyles.hideLogin}>
+        <GoogleLogin
+          render={(renderProps) => (
+            <div
+              onClick={renderProps.onClick}
+              disabled={renderProps.disabled}
+              className={navbarStyles.hideLogin}
+            ></div>
+          )}
+          clientId={clientID}
+          icon=""
+          buttonText=""
+          cookiePolicy={'single_host_origin'}
+          isSignedIn={true}
+          onSuccess={LoginHandler}
+          onFailure={error}
+        />
+      </div>
     </div>
   );
 }

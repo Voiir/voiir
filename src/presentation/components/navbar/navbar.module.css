@@ -1,43 +1,51 @@
-
-.navbar{
-    position: fixed;
-    top: 0; 
-    width: 100%;
-    background-color: white;
-    box-shadow:0px 0px 30px 0px rgba(0, 0, 0, 0.1);
-    height: 80px;
-    z-index: 1;
-    
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+  height: 80px;
+  z-index: 1;
 }
 
-.logo{
-    font-family: 'cabin';
-    font-weight: 600;
-    font-size: 32px;
-    color: black;
-    position: relative;
-    top: 50%; 
-    margin-left: 40px;
-    transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-    float: left;
-    cursor: pointer;
+.logo {
+  font-family: 'cabin';
+  font-weight: 600;
+  font-size: 32px;
+  color: black;
+  position: relative;
+  top: 50%;
+  margin-left: 40px;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  float: left;
+  cursor: pointer;
 }
 
-.aboutLegal{
-    position: absolute;
-    top: 50%;  
-    transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-    right: 105px;
-    color: black;
+.aboutLegal {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  right: 105px;
+  color: black;
 }
 
-.termsLegal{
-    position: absolute;
-    top: 50%;  
-    transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-    right: 40px;
-    color: black;
+.termsLegal {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  right: 40px;
+  color: black;
 }
+
+.hideLogin {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1099999999999;
+  border: 0;
+  box-shadow: 0;
+}
+
