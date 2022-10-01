@@ -6,6 +6,8 @@ import Loader from './presentation/components/loader/loader';
 import CircularLoader from './presentation/components/circularLoader/circularLoader';
 import { useSelector } from 'react-redux';
 
+//main entry point of the application.
+
 function App() {
   const isLoading = useSelector((state) => state.userReducer.isLoading);
 
